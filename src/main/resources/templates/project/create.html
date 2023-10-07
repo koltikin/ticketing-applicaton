@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="/fragments/head :: head"></head>
+
+<body>
+
+<div class="dashboard-main-wrapper">
+
+    <div th:replace="/fragments/header :: header"></div>
+
+    <div th:replace="/fragments/left-sidebar :: left-sidebar"></div>
+
+    <div class="dashboard-wrapper">
+
+        <div class="dashboard-ecommerce">
+
+            <div class="container-fluid dashboard-content">
+
+                <div class="ecommerce-widget">
+
+                    <div class="row">
+
+                        <div class="col-lg-6 col-md-12">
+
+                            <section class="panel panel-transparent">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">Project Create</h2>
+                                </header>
+
+                                <div class="panel-body">
+
+                                    <!-- ------------------------FORM START----------------------------- -->
+                                    <form th:object="${project}" th:action="@{/project/create}" method="post">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="projectname" class="col-form-label">Project Name</label>
+                                                    <input th:field="*{projectName}" id="projectname" type="text" class="form-control" placeholder="project name">
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('projectName')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('projectName')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="projectcode" class="col-form-label">Project Code</label>
+                                                    <input th:field="*{projectCode}" id="projectcode" type="text" class="form-control" placeholder="project code">
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('projectCode')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('projectCode')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Assigned Manager</label>
+                                                    <select th:field="*{projectManager}" name="assignedmanager" class="custom-select">
+                                                        <option th:each="manager:${managers}"
+                                                                th:value="${manager.userName}"
+                                                                th:text="${manager.firstName + ' ' + manager.lastName}"></option>
+                                                    </select>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('projectManager')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('projectManager')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="startdate">Project Start Date</label>
+                                                    <input th:field="*{projectStartDate}" id="startdate" type="date" class="form-control">
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('projectStartDate')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('projectStartDate')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="enddate">Project End Date</label>
+                                                    <input th:field="*{projectEndDate}" id="enddate" type="date" class="form-control">
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('projectEndDate')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('projectEndDate')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="projectdetail">Project Detail</label>
+                                                    <textarea th:field="*{projectDetail}" id="projectdetail" class="form-control" placeholder="project detail"></textarea>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('projectDetail')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('projectDetail')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="float-right">
+                                                    <button class="btn btn-success rounded-0" type="submit">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <!-- ------------------------FORM END----------------------------- -->
+
+                                </div>
+
+                            </section>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ------------------------TABLE START----------------------------- -->
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="col-md-12">
+                            <section class="panel">
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">Project List</h2>
+                                </header>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Project Code</th>
+                                                <th scope="col">Project Name</th>
+                                                <th scope="col">Start - End Date</th>
+                                                <th scope="col">Manager</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="prj:${projectList}">
+                                                <td th:text="${prj.projectCode}"></td>
+                                                <td th:text="${prj.projectName}"></td>
+                                                <td th:text="${#temporals.format(prj.projectStartDate,'dd/MM/yyyy') + '-' + #temporals.format(prj.projectEndDate,'dd/MM/yyyy')}"></td>
+                                                <td th:text="${prj.projectManager.firstName + ' ' + prj.projectManager.lastName}"></td>
+                                                <td th:text="${prj.projectStatus.value}"></td>
+                                                <td>
+                                                    <a th:unless = "${prj.projectStatus.value == 'Completed'}" th:href="@{/project/update/{projectCode}(projectCode = ${prj.projectCode})}">
+                                                        <button type="button" class="btn btn-warning rounded-0">Update</button></a>
+
+                                                    <a th:if = "${prj.projectStatus.value == 'Completed'}" >
+                                                        <button type="button" class="btn btn-warning rounded-0 disabled-button">Update</button></a>
+
+                                                    <a th:href="@{/project/delete/{projectCode}(projectCode = ${prj.projectCode})}">
+                                                        <button type="button" class="btn btn-danger rounded-0">Delete</button></a>
+
+                                                    <a th:unless = "${prj.projectStatus.value == 'Completed'}" th:href="@{/project/complete/{projectCode}(projectCode = ${prj.projectCode})}">
+                                                        <button type="button" class="btn btn-info rounded-0">Complete</button></a>
+
+                                                    <a th:if = "${prj.projectStatus.value == 'Completed'}">
+                                                        <button type="button" class="btn btn-info rounded-0 disabled-button">Complete</button></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ------------------------TABLE END----------------------------- -->
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div th:replace="/fragments/footer :: footer"></div>
+
+</div>
+
+<div th:replace="/fragments/javascript :: js"></div>
+
+</body>
+
+</html>
