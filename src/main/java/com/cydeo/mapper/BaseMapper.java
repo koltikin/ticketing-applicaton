@@ -2,9 +2,6 @@ package com.cydeo.mapper;
 
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-
-import java.lang.reflect.Type;
 
 @AllArgsConstructor
 public abstract class BaseMapper<D, E> {
