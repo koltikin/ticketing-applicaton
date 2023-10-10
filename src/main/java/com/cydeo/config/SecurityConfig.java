@@ -16,23 +16,23 @@ import java.util.List;
 
 @Configuration
 public class SecurityConfig {
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder){
-        List<UserDetails> userList = new ArrayList<>();
-        userList.add(
-                new User("ziya",encoder.encode("bismillah"),
-                        List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
-
-        userList.add(
-                new User("yusuf",encoder.encode("yusuf123"),
-                        List.of(new SimpleGrantedAuthority("ROLE_MANAGER"))));
-
-        userList.add(
-                new User("alim",encoder.encode("alim0908"),
-                        List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))));
-
-        return new InMemoryUserDetailsManager(userList);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(PasswordEncoder encoder){
+//        List<UserDetails> userList = new ArrayList<>();
+//        userList.add(
+//                new User("ziya",encoder.encode("bismillah"),
+//                        List.of(new SimpleGrantedAuthority("ROLE_ADMIN"))));
+//
+//        userList.add(
+//                new User("yusuf",encoder.encode("yusuf123"),
+//                        List.of(new SimpleGrantedAuthority("ROLE_MANAGER"))));
+//
+//        userList.add(
+//                new User("alim",encoder.encode("alim0908"),
+//                        List.of(new SimpleGrantedAuthority("ROLE_EMPLOYEE"))));
+//
+//        return new InMemoryUserDetailsManager(userList);
+//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
