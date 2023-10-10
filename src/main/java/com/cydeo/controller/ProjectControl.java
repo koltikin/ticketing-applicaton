@@ -6,6 +6,7 @@ import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +20,7 @@ import javax.validation.Valid;
 public class ProjectControl {
     private final ProjectService projectService;
     private final UserService userService;
-    @GetMapping("/create")
+    @GetMapping(value = "/create", name ="project_create" )
     public String projectCreate(Model model){
         model.addAttribute("project",new ProjectDTO());
         model.addAttribute("projectList", projectService.findByProjectDetail());
