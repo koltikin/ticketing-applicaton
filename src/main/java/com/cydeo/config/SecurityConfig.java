@@ -38,6 +38,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()
+                .antMatchers("/user/**","/project/create").hasRole("ADMIN")
                 .antMatchers("/",
                         "/login",
                         "/fragments/**",
