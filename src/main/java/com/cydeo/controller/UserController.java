@@ -5,6 +5,7 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/user")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
