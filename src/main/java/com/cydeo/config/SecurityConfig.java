@@ -42,10 +42,15 @@ public class SecurityConfig {
         return http
                 .authorizeRequests()
 //                .antMatchers("/project/**").hasAuthority("Manager")
-                .antMatchers("/user/**","/project/create").hasAuthority("Admin")
+                .antMatchers("/user/**").hasAuthority("Admin")
+                .antMatchers("/project/**").hasAuthority("Manager")
+                .antMatchers("/project/create").hasAnyAuthority("Manager","Admin")
+
                 .antMatchers("/project/employee/**").hasAuthority("Employee")
 //                .antMatchers("/task/**").hasAuthority("Manager")
-                .antMatchers("/task/pending-tasks").hasAuthority("Employee")
+                .antMatchers("/task/pending-tasks",
+                        "/task/task-update", "/task/task-update",
+                        "/task/archive-tasks").hasAuthority("Employee")
 //                .antMatchers("/project/**","/task/create").hasRole("MANAGER")
 //                .antMatchers("/task/pending-tasks","/task/archive-tasks").hasRole("EMPLOYEE")
 //                .antMatchers("/task/**").hasAnyRole("EMPLOYEE","MANAGER")
