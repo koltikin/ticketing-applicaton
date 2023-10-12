@@ -38,14 +38,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeRequests()
-                .antMatchers("/user/**","/project/create").hasRole("ADMIN")
-                .antMatchers("/project/**","/task/create").hasRole("MANAGER")
-                .antMatchers("/task/pending-tasks","/task/archive-tasks").hasRole("EMPLOYEE")
+//                .antMatchers("/user/**","/project/create").hasRole("ADMIN")
+                .antMatchers("/user/**","/project/create").hasAuthority("Admin")
+//                .antMatchers("/project/**","/task/create").hasRole("MANAGER")
+//                .antMatchers("/task/pending-tasks","/task/archive-tasks").hasRole("EMPLOYEE")
 //                .antMatchers("/task/**").hasAnyRole("EMPLOYEE","MANAGER")
 //                .antMatchers("/task/**").hasAuthority("ROLE_MANAGER")
 
                 .antMatchers("/",
                         "/login",
+                        "/welcome",
                         "/fragments/**",
                         "/assets/**",
                         "/images/**"
@@ -55,7 +57,7 @@ public class SecurityConfig {
 //                .httpBasic()// popup box
                 .formLogin()
                 .loginPage("/login")
-                .defaultSuccessUrl("/welcome")
+                .defaultSuccessUrl("/user/create")
                 .failureUrl("/login?error=true")
                 .and().build();
     }
