@@ -16,6 +16,7 @@ import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,7 +85,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllTasksNotCompleted() {
-        UserDTO loggedInUser = userService.findById("john@employee.com");
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO loggedInUser = userService.findById(userName);
         User user = userMapper.convertToEntity(loggedInUser);
         return repository.findAllByTaskStatusIsNotAndAssignedEmployee(Status.COMPLETE, user).stream()
                 .map(mapper::convertToDto)
@@ -93,7 +95,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> getAllCompletedTasks() {
-        UserDTO loggedInUser = userService.findById("john@employee.com");
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDTO loggedInUser = userService.findById(userName);
         User user = userMapper.convertToEntity(loggedInUser);
         return repository.findAllByTaskStatusIsAndAssignedEmployee(Status.COMPLETE, user).stream()
                 .map(mapper::convertToDto)
