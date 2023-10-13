@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @MappedSuperclass
+@EntityListeners(BaseEntityListener.class)
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +25,6 @@ public class BaseEntity {
     private LocalDateTime lastUpdateDateTime;
     @Column(nullable = false)
     private Long lastUpdateUserId;
-
-    @PrePersist
-    protected void onPrePersist(){
-        this.insertDateTime = LocalDateTime.now();
-        this.lastUpdateDateTime = LocalDateTime.now();
-        this.insertUserId = 1L;
-        this.lastUpdateUserId = 1L;
-    }
-    @PreUpdate
-    private void onPreUpdate(){
-        this.lastUpdateDateTime = LocalDateTime.now();
-        this.lastUpdateUserId = 1L;
-    }
 
 
 }

@@ -2,7 +2,7 @@ package com.cydeo.service.impl;
 
 import com.cydeo.Repository.UserRepository;
 import com.cydeo.entity.User;
-import com.cydeo.entity.common.SecurityUserDetail;
+import com.cydeo.entity.common.UserPrincipal;
 import com.cydeo.service.SecurityService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +23,6 @@ public class SecurityServiceImpl implements SecurityService {
         if (user == null){
             throw new UsernameNotFoundException(username);
         }
-        return new SecurityUserDetail(user); // returns userDetails(security user)
+        return new UserPrincipal(user); // returns userDetails(security user)
     }
 }
