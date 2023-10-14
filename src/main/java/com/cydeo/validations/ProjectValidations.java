@@ -16,6 +16,9 @@ public class ProjectValidations {
         if (projectService.isProjectExist(project)){
             bindingResult.addError(new FieldError("project","projectCode","Project Already Exist"));
         }
+        if (projectService.isValidStartEndDate(project)){
+            bindingResult.addError(new FieldError("project","projectCode","Project Already Exist"));
+        }
 
         return bindingResult;
     }
