@@ -14,6 +14,7 @@ import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -88,7 +89,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDTO> findByProjectDetail() {
-        UserDTO currentManagerDTO = userService.findById("harold@manager.com");
+        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        UserDTO currentManagerDTO = userService.findById(userName);
+
         User currentManager = userMapper.convertToEntity(currentManagerDTO);
         List<Project> projects = repository.findByProjectManager(currentManager);
 
