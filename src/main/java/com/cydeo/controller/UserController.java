@@ -4,6 +4,7 @@ import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
+import com.cydeo.validations.UserValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import java.util.List;
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
+     private final UserValidations userValidations;
     @GetMapping("/create")
     public String userCreate(Model model){
         model.addAttribute("user",new UserDTO());
@@ -32,9 +34,7 @@ public class UserController {
     @PostMapping("/save")
     public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
-        if (userService.isUserExist(user)) {
-            bindingResult.addError(new FieldError("user", "userName", "User Already Exist"));
-        }
+        bindingResult = userValidations.addCustomValidations(user,bindingResult);
 
         if(bindingResult.hasErrors()){
 
