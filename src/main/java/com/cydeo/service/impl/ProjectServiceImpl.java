@@ -120,4 +120,9 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> listAllProjectByManager(User manager) {
         return repository.findAllByProjectManager(manager);
     }
+
+    @Override
+    public Boolean isProjectExist(ProjectDTO projectDTO) {
+        return repository.existsByProjectCode(projectDTO.getProjectCode());
+    }
 }

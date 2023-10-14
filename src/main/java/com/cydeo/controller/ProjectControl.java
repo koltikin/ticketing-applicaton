@@ -5,11 +5,13 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.Status;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.UserService;
+import com.cydeo.validations.ProjectValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,6 +22,7 @@ import javax.validation.Valid;
 public class ProjectControl {
     private final ProjectService projectService;
     private final UserService userService;
+    private final ProjectValidations projectValidations;
     @GetMapping(value = "/create")
     public String projectCreate(Model model){
         model.addAttribute("project",new ProjectDTO());
@@ -31,6 +34,8 @@ public class ProjectControl {
 
     @PostMapping("/create")
     public String projectCreateSave(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model){
+
+        bindingResult  = projectValidations.addCustomValidations(project,bindingResult);
 
         if (bindingResult.hasErrors()){
 

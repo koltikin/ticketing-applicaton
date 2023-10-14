@@ -33,7 +33,7 @@ public class UserController {
     public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
         if (userService.isUserExist(user)) {
-            bindingResult.addError(new FieldError("user", "userName", "user already exist"));
+            bindingResult.addError(new FieldError("user", "userName", "User Already Exist"));
         }
 
         if(bindingResult.hasErrors()){
