@@ -38,8 +38,8 @@ public class Task extends BaseEntity{
     private LocalDate assignedDate;
 
 
+    @PrePersist
     protected void onPrePersist(){
-        super.onPrePersist();
         this.assignedDate = LocalDate.now();
         this.taskStatus = Status.OPEN;
     }

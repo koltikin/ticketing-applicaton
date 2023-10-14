@@ -27,4 +27,6 @@ public interface TaskService extends CrudService<TaskDTO, Long>{
 
     List<Task> listAllTasksByEmployee(User employee);
 
+    void taskStatusUpdate(TaskDTO task);
+
 }

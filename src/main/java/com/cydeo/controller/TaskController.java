@@ -86,6 +86,7 @@ public class TaskController {
 
         }
 
+
         taskService.update(task);
 
         return "redirect:/task/create";
@@ -115,7 +116,7 @@ public class TaskController {
     @PostMapping("/task-update/{id}")
     public String taskUpdateStatusSave(@ModelAttribute("task") TaskDTO task){
 
-        taskService.update(task);
+        taskService.taskStatusUpdate(task);
 
         return "redirect:/task/pending-tasks";
 
