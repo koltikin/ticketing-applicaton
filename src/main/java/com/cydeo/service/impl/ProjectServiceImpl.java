@@ -128,6 +128,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Boolean isValidStartEndDate(ProjectDTO project) {
-        return project.getProjectEndDate().isAfter(project.getProjectStartDate());
+        return !project.getProjectEndDate().isAfter(project.getProjectStartDate());
     }
 }
