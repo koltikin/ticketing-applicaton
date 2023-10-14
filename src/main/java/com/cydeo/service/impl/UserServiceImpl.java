@@ -101,4 +101,9 @@ public class UserServiceImpl implements UserService {
             default: return true;
         }
     }
+
+    @Override
+    public boolean isUserExist(UserDTO userDto) {
+        return repository.existsByUserNameAndIsDeleted(userDto.getUserName(),false);
+    }
 }

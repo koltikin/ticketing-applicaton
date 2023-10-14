@@ -19,4 +19,6 @@ public interface ProjectRepository extends JpaRepository<Project,Long> {
 
 
     List<Project> findAllByProjectManager(User manager);
+
+    Boolean existsByProjectCode(String projectCode);
 }

@@ -4,11 +4,13 @@ import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
+import com.cydeo.validations.UserValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +23,7 @@ import java.util.List;
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
+     private final UserValidations userValidations;
     @GetMapping("/create")
     public String userCreate(Model model){
         model.addAttribute("user",new UserDTO());
@@ -29,7 +32,9 @@ public class UserController {
         return "user/create";
     }
     @PostMapping("/save")
-    public String userSave(@ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
+    public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
+
+        bindingResult = userValidations.addCustomValidations(user,bindingResult);
 
         if(bindingResult.hasErrors()){
 
@@ -37,7 +42,6 @@ public class UserController {
             model.addAttribute("userList",userService.findAll());
 
             return "user/create";
-
         }
         userService.save(user);
         return "redirect:/user/create";

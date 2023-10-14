@@ -12,4 +12,8 @@ public interface ProjectService extends CrudService<ProjectDTO,String>{
     List<ProjectDTO> listAllNotCompletedPrjByManager(User manager);
 
     List<Project> listAllProjectByManager(User manager);
+
+    Boolean isProjectExist(ProjectDTO projectDTO);
+
+    Boolean isValidStartEndDate(ProjectDTO projectDTO);
  }
