@@ -19,4 +19,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     List<User> findByRole_DescriptionIgnoreCaseAndIsDeleted(String role_description,Boolean deleted);
 
+    Boolean existsByUserNameAndIsDeleted(String userName, Boolean isDeleted);
 }

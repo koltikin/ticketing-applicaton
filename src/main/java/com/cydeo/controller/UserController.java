@@ -9,6 +9,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,7 +30,11 @@ public class UserController {
         return "user/create";
     }
     @PostMapping("/save")
-    public String userSave(@ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
+    public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
+
+        if (userService.isUserExist(user)) {
+            bindingResult.addError(new FieldError("user", "userName", "user already exist"));
+        }
 
         if(bindingResult.hasErrors()){
 
@@ -37,7 +42,6 @@ public class UserController {
             model.addAttribute("userList",userService.findAll());
 
             return "user/create";
-
         }
         userService.save(user);
         return "redirect:/user/create";
