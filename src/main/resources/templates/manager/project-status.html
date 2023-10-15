@@ -36,7 +36,7 @@
                                                 <th scope="col">Project Name</th>
                                                 <th scope="col">Start/End Date</th>
                                                 <th scope="col">Manager</th>
-                                                <th scope="col">Unfinished/Completed</th>
+                                                <th scope="col">Unfinished Tasks/Completed Tasks</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Action</th>
                                             </tr>
@@ -52,7 +52,8 @@
                                                 <td>
                                                     <!--Show this if the project can be completed-->
                                                     <a th:if="${prj.unfinishedCount == 0 && prj.projectStatus.value != 'Completed'}"
-                                                            th:href="@{/project/manager/project-status/complete/{code}(code = ${prj.projectCode})}" class="btn btn-info rounded-0">Complete</a>
+                                                       th:href="@{/project/manager/project-status/complete/{code}(code = ${prj.projectCode})}"
+                                                       methods="post" class="btn btn-info rounded-0">Complete</a>
                                                     <!--Show this if the project can not be completed-->
                                                     <a th:if="${prj.unfinishedCount != 0 || prj.projectStatus.value == 'Completed'}"
                                                             class="btn btn-info rounded-0 disabled-button">Complete</a>

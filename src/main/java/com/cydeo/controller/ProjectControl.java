@@ -106,7 +106,7 @@ public class ProjectControl {
         return "/manager/project-status";
     }
     @PreAuthorize("hasAuthority('Manager')")
-    @GetMapping("/manager/project-status/complete/{projectCode}")
+    @PostMapping("/manager/project-status/complete/{projectCode}")
     public String projectStatusComplete(@PathVariable("projectCode") String projectCode) {
 
         projectService.projectComplete(projectCode);
