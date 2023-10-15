@@ -89,7 +89,7 @@ public class UserServiceImpl implements UserService {
         User user = repository.findByUserNameAndIsDeleted(username,false);
         String description = user.getRole().getDescription();
         if (description.equals("Admin")) {
-            return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false)
+            return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted("Manager", false)
                     .stream().map(mapper::convertToDto)
                     .collect(Collectors.toList());
         }
