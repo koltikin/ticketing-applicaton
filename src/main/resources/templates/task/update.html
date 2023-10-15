@@ -44,6 +44,14 @@
                                                                 th:value="${project.projectCode}"
                                                                 th:text="${project.projectName}"></option>
                                                     </select>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('project')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('project')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -57,6 +65,14 @@
                                                                 th:value="${employee.userName}"
                                                                 th:text="${employee.firstName + ' ' + employee.lastName}"></option>
                                                     </select>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('assignedEmployee')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('assignedEmployee')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -93,7 +109,6 @@
                                                         </ul>
                                                     </div>
 
-
                                                 </div>
                                             </div>
                                         </div>
@@ -101,7 +116,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <div class="float-right">
-                                                    <button class="btn btn-success rounded-0" type="submit">Update
+                                                    <button class="btn btn-success rounded-0" type="submit">Save
                                                     </button>
                                                 </div>
                                             </div>

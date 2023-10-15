@@ -43,6 +43,14 @@
                                                                 th:value="${project.projectCode}"
                                                                 th:text="${project.projectName}"></option>
                                                     </select>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('project')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('project')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -56,6 +64,14 @@
                                                                 th:value="${employee.userName}"
                                                                 th:text="${employee.firstName + ' ' + employee.lastName}"></option>
                                                     </select>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('assignedEmployee')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('assignedEmployee')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                         </div>

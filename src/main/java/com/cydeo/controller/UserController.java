@@ -64,9 +64,11 @@ public class UserController {
 
     @PostMapping("/update-save")
     public String userUpdate(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
-        bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
+//        bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
 
-        if (bindingResult.hasErrors()){
+        if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
+                || bindingResult.hasFieldErrors("userName")|| bindingResult.hasFieldErrors("phone")
+                || bindingResult.hasFieldErrors("role")|| bindingResult.hasFieldErrors("gender")){
             model.addAttribute("roles",roleService.findAll());
             model.addAttribute("userList",userService.findAll());
             return "/user/update";

@@ -96,38 +96,38 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-sm-6 col-md-6">
-                                                <div class="form-group">
-                                                    <label for="password" class="col-form-label">Password</label>
-                                                    <input id="password" type="password" placeholder="password" th:field="*{passWord}" class="form-control">
+<!--                                        <div class="row">-->
+<!--                                            <div class="col-sm-6 col-md-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <label for="password" class="col-form-label">Password</label>-->
+<!--                                                    <input id="password" type="password" placeholder="password" th:field="*{passWord}" class="form-control">-->
 
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passWord')}">
-                                                        <ul>
-                                                            <li th:each="err : ${#fields.errors('passWord')}"
-                                                                th:text="${err}"></li>
-                                                        </ul>
-                                                    </div>
+<!--                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passWord')}">-->
+<!--                                                        <ul>-->
+<!--                                                            <li th:each="err : ${#fields.errors('passWord')}"-->
+<!--                                                                th:text="${err}"></li>-->
+<!--                                                        </ul>-->
+<!--                                                    </div>-->
 
-                                                </div>
-                                            </div>
+<!--                                                </div>-->
+<!--                                            </div>-->
 
-                                            <div class="col-sm-6 col-md-6">
-                                                <div class="form-group">
-                                                    <label for="repassword" class="col-form-label">Confirm Password</label>
-                                                    <input id="repassword" type="password" th:field="*{passWordConfirm}" placeholder="confirm your password" class="form-control">
+<!--                                            <div class="col-sm-6 col-md-6">-->
+<!--                                                <div class="form-group">-->
+<!--                                                    <label for="repassword" class="col-form-label">Confirm Password</label>-->
+<!--                                                    <input id="repassword" type="password" th:field="*{passWordConfirm}" placeholder="confirm your password" class="form-control">-->
 
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passWordConfirm')}">
-                                                        <ul>
-                                                            <li th:each="err : ${#fields.errors('passWordConfirm')}"
-                                                                th:text="${err}"></li>
-                                                        </ul>
-                                                    </div>
+<!--                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passWordConfirm')}">-->
+<!--                                                        <ul>-->
+<!--                                                            <li th:each="err : ${#fields.errors('passWordConfirm')}"-->
+<!--                                                                th:text="${err}"></li>-->
+<!--                                                        </ul>-->
+<!--                                                    </div>-->
 
 
-                                                </div>
-                                            </div>
-                                        </div>
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
