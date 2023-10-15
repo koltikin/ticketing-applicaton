@@ -112,6 +112,14 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<ProjectDTO> findAllByManager() {
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var manager = userService.findById(username);
+        return repository.findByProjectManager(userMapper.convertToEntity(manager)).stream()
+                .map(mapper::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public List<ProjectDTO> listAllNotCompletedPrjByManager(User manager) {
         List<Project> projects =  repository.findAllByProjectManagerAndProjectStatusNot(manager,Status.COMPLETE);
 
