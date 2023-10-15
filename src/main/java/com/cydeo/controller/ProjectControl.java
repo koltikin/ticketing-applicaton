@@ -53,7 +53,7 @@ public class ProjectControl {
         return "redirect:/project/create";
     }
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping("/complete/{projectCode}")
     public String projectComplete(@PathVariable("projectCode") String projectCode){
 
@@ -61,7 +61,7 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping("/delete/{projectCode}")
     public String projectDelete(@PathVariable("projectCode") String projectCode){
 
@@ -69,7 +69,7 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping("/update/{projectCode}")
     public String projectUpdate(@PathVariable("projectCode") String projectCode,Model model){
 
@@ -80,7 +80,7 @@ public class ProjectControl {
         return "/project/update";
     }
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @PostMapping("/update/{projectStatus}")
     public String projectUpdateSave(@Valid @ModelAttribute("project") ProjectDTO project,BindingResult bindingResult, Model model){
 
@@ -97,6 +97,7 @@ public class ProjectControl {
         return "redirect:/project/create";
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/manager/project-status")
     public String projectStatus(Model model){
 
@@ -104,6 +105,7 @@ public class ProjectControl {
 
         return "/manager/project-status";
     }
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/manager/project-status/complete/{projectCode}")
     public String projectStatusComplete(@PathVariable("projectCode") String projectCode) {
 

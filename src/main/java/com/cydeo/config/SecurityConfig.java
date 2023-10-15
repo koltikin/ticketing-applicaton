@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -49,11 +48,11 @@ public class SecurityConfig {
 //                .antMatchers("/project/**").hasAuthority("Manager")
 //                .antMatchers("/project/create").hasAnyAuthority("Manager","Admin")
 
-                .antMatchers("/project/employee/**").hasAuthority("Employee")
-//                .antMatchers("/task/**").hasAuthority("Manager")
-                .antMatchers("/task/pending-tasks",
-                        "/task/task-update", "/task/task-update",
-                        "/task/archive-tasks").hasAuthority("Employee")
+//                .antMatchers("/project/employee/**").hasAuthority("Employee")
+////                .antMatchers("/task/**").hasAuthority("Manager")
+//                .antMatchers("/task/pending-tasks",
+//                        "/task/task-update", "/task/task-update",
+//                        "/task/archive-tasks").hasAuthority("Employee")
 //                .antMatchers("/project/**","/task/create").hasRole("MANAGER")
 //                .antMatchers("/task/pending-tasks","/task/archive-tasks").hasRole("EMPLOYEE")
 //                .antMatchers("/task/**").hasAnyRole("EMPLOYEE","MANAGER")

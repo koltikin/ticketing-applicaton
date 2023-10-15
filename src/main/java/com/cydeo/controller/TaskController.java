@@ -6,6 +6,7 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ public class TaskController {
     private final UserService userService;
     private final TaskService taskService;
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/create")
     public String taskCreate(Model model){
 
@@ -33,6 +35,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @PostMapping("/create")
     public String taskCreateSave(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult,Model model){
 
@@ -52,6 +55,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/delete/{id}")
     public String taskDelete(@PathVariable("id") Long id){
 
@@ -60,6 +64,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/update/{id}")
     public String taskUpdate(@PathVariable("id") Long id, Model model){
 
@@ -72,6 +77,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @PostMapping("/update/{id}/{taskStatus}/{assignedDate}")
     public String taskUpdateSAve(@ModelAttribute("task") TaskDTO task,BindingResult bindingResult,Model model){
 
@@ -92,7 +98,7 @@ public class TaskController {
         return "redirect:/task/create";
 
     }
-
+    @PreAuthorize("hasAuthority('Employee')")
     @GetMapping("/pending-tasks")
     public String pendingTasks(Model model){
 
@@ -102,6 +108,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Employee')")
     @GetMapping("/task-update/{id}")
     public String taskUpdateStatus(@PathVariable("id") Long id, Model model){
 
@@ -113,6 +120,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Employee')")
     @PostMapping("/task-update/{id}")
     public String taskUpdateStatusSave(@ModelAttribute("task") TaskDTO task){
 
@@ -122,6 +130,7 @@ public class TaskController {
 
     }
 
+    @PreAuthorize("hasAuthority('Employee')")
     @GetMapping("/archive-tasks")
     public String taskArchive(Model model){
 
