@@ -57,9 +57,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserDTO dto) {
-        Long old_user_id = repository.findByUserNameAndIsDeleted(dto.getUserName(),false).getId();
+        User old_user = repository.findByUserNameAndIsDeleted(dto.getUserName(),false);
         User new_user = mapper.convertToEntity(dto);
-        new_user.setId(old_user_id);
+        new_user.setId(old_user.getId());
+        if (dto.getPassWord()==null){
+            new_user.setPassWord(old_user.getPassWord());
+        }
         repository.save(new_user);
 
     }

@@ -37,7 +37,7 @@ public class TaskController {
 
     @PreAuthorize("hasAuthority('Manager')")
     @PostMapping("/create")
-    public String taskCreateSave(@ModelAttribute("task") TaskDTO task, BindingResult bindingResult,Model model){
+    public String taskCreateSave(@Valid @ModelAttribute("task") TaskDTO task, BindingResult bindingResult,Model model){
 
         if (bindingResult.hasErrors()){
 
@@ -79,7 +79,7 @@ public class TaskController {
 
     @PreAuthorize("hasAuthority('Manager')")
     @PostMapping("/update/{id}/{taskStatus}/{assignedDate}")
-    public String taskUpdateSAve(@ModelAttribute("task") TaskDTO task,BindingResult bindingResult,Model model){
+    public String taskUpdateSAve(@Valid @ModelAttribute("task") TaskDTO task,BindingResult bindingResult,Model model){
 
 
         if (bindingResult.hasErrors()){
