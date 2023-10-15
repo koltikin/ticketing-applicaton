@@ -11,6 +11,11 @@
             <img class="logo-img" th:src="@{/images/CydeoLogo_01.png}" height="45" alt="logo">
         </div>
         <div class="card-body">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    Invalid username or password. Please try again.
+                </div>
+            </div>
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
                     <label for="username">Email</label>:

@@ -23,6 +23,7 @@ public class ProjectControl {
     private final ProjectService projectService;
     private final UserService userService;
     private final ProjectValidations projectValidations;
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping(value = "/create")
     public String projectCreate(Model model){
         model.addAttribute("project",new ProjectDTO());
@@ -31,7 +32,7 @@ public class ProjectControl {
 
         return "/project/create";
     }
-
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @PostMapping("/create")
     public String projectCreateSave(@Valid @ModelAttribute("project") ProjectDTO project, BindingResult bindingResult, Model model){
 
@@ -52,7 +53,7 @@ public class ProjectControl {
         return "redirect:/project/create";
     }
 
-
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/complete/{projectCode}")
     public String projectComplete(@PathVariable("projectCode") String projectCode){
 
@@ -60,7 +61,7 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/delete/{projectCode}")
     public String projectDelete(@PathVariable("projectCode") String projectCode){
 
@@ -68,7 +69,7 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/update/{projectCode}")
     public String projectUpdate(@PathVariable("projectCode") String projectCode,Model model){
 
@@ -79,7 +80,7 @@ public class ProjectControl {
         return "/project/update";
     }
 
-
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/update/{projectStatus}")
     public String projectUpdateSave(@Valid @ModelAttribute("project") ProjectDTO project,BindingResult bindingResult, Model model){
 
@@ -95,7 +96,7 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-//
+
     @GetMapping("/manager/project-status")
     public String projectStatus(Model model){
 

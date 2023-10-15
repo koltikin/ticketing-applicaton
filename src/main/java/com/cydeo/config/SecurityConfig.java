@@ -3,11 +3,14 @@ package com.cydeo.config;
 import com.cydeo.service.SecurityService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final SecurityService securityService;
@@ -42,9 +45,9 @@ public class SecurityConfig {
         return http
                 .authorizeRequests()
 //                .antMatchers("/project/**").hasAuthority("Manager")
-                .antMatchers("/user/**").hasAuthority("Admin")
-                .antMatchers("/project/**").hasAuthority("Manager")
-                .antMatchers("/project/create").hasAnyAuthority("Manager","Admin")
+//                .antMatchers("/user/**").hasAuthority("Admin")
+//                .antMatchers("/project/**").hasAuthority("Manager")
+//                .antMatchers("/project/create").hasAnyAuthority("Manager","Admin")
 
                 .antMatchers("/project/employee/**").hasAuthority("Employee")
 //                .antMatchers("/task/**").hasAuthority("Manager")

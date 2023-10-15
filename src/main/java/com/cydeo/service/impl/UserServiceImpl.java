@@ -104,6 +104,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserExist(UserDTO userDto) {
-        return repository.existsByUserNameAndIsDeleted(userDto.getUserName(),false);
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
+        if (user !=null && user.getId()!=null) {
+            return repository.existsByUserNameAndIsDeleted(userDto.getUserName(), false);
+        }
+        return false;
     }
+
+    @Override
+    public Boolean isPasswordNotConfirmed(UserDTO userDto) {
+            return !userDto.getPassWord().equals(userDto.getPassWordConfirm());
+    }
+
+    @Override
+    public Boolean isPasswordNotMatch(UserDTO userDto) {
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
+        boolean passwordsMatch = passwordEncoder.matches(userDto.getPassWord(), user.getPassWord());
+
+        return !passwordsMatch;
+    }
+
 }
