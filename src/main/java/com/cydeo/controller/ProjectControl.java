@@ -28,7 +28,7 @@ public class ProjectControl {
     public String projectCreate(Model model){
         model.addAttribute("project",new ProjectDTO());
         model.addAttribute("projectList", projectService.findByProjectDetail());
-        model.addAttribute("managers", userService.findAllByRole("Manager"));
+        model.addAttribute("managers", userService.findAllByRoleDetail());
 
         return "/project/create";
     }
@@ -41,7 +41,7 @@ public class ProjectControl {
         if (bindingResult.hasErrors()){
 
             model.addAttribute("projectList", projectService.findByProjectDetail());
-            model.addAttribute("managers", userService.findAllByRole("Manager"));
+            model.addAttribute("managers", userService.findAllByRoleDetail());
 
             return "/project/create";
         }
@@ -75,7 +75,7 @@ public class ProjectControl {
 
         model.addAttribute("project",projectService.findById(projectCode));
         model.addAttribute("projectList", projectService.findByProjectDetail());
-        model.addAttribute("managers", userService.findAllByRole("manager"));
+        model.addAttribute("managers", userService.findAllByRoleDetail());
 
         return "/project/update";
     }
@@ -87,7 +87,7 @@ public class ProjectControl {
         if (bindingResult.hasErrors()){
 
             model.addAttribute("projectList", projectService.findByProjectDetail());
-            model.addAttribute("managers", userService.findAllByRole("manager"));
+            model.addAttribute("managers", userService.findAllByRoleDetail());
             return "/project/update";
 
         }

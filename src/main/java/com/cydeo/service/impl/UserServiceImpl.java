@@ -10,11 +10,12 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,10 +84,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> findAllByRoleDetail() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = repository.findByUserNameAndIsDeleted(username,false);
+        String description = user.getRole().getDescription();
+        if (description.equals("Admin")) {
+            return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false)
+                    .stream().map(mapper::convertToDto)
+                    .collect(Collectors.toList());
+        }
+        return Collections.singletonList(mapper.convertToDto(user));
+    }
+
     public List<UserDTO> findAllByRole(String description) {
-        return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description,false)
-                .stream().map(mapper::convertToDto)
-                .collect(Collectors.toList());
+            return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false)
+                    .stream().map(mapper::convertToDto)
+                    .collect(Collectors.toList());
     }
 
     private boolean checkIfUserCanBeDeleted(User user){

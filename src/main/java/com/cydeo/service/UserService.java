@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService extends CrudService<UserDTO,String>{
 
+    List<UserDTO> findAllByRoleDetail();
     List<UserDTO> findAllByRole(String description);
     boolean isUserExist(UserDTO userDto);
     Boolean isPasswordNotConfirmed(UserDTO user);
