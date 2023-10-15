@@ -28,7 +28,7 @@ public class ProjectControl {
     public String projectCreate(Model model){
         model.addAttribute("project",new ProjectDTO());
         model.addAttribute("projectList", projectService.findByProjectDetail());
-        model.addAttribute("managers", userService.findAllByRole("Manager"));
+        model.addAttribute("managers", userService.findAllByRoleDetail());
 
         return "/project/create";
     }
@@ -41,7 +41,7 @@ public class ProjectControl {
         if (bindingResult.hasErrors()){
 
             model.addAttribute("projectList", projectService.findByProjectDetail());
-            model.addAttribute("managers", userService.findAllByRole("Manager"));
+            model.addAttribute("managers", userService.findAllByRoleDetail());
 
             return "/project/create";
         }
@@ -53,7 +53,7 @@ public class ProjectControl {
         return "redirect:/project/create";
     }
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping("/complete/{projectCode}")
     public String projectComplete(@PathVariable("projectCode") String projectCode){
 
@@ -61,7 +61,7 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping("/delete/{projectCode}")
     public String projectDelete(@PathVariable("projectCode") String projectCode){
 
@@ -69,25 +69,25 @@ public class ProjectControl {
 
         return "redirect:/project/create";
     }
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @GetMapping("/update/{projectCode}")
     public String projectUpdate(@PathVariable("projectCode") String projectCode,Model model){
 
         model.addAttribute("project",projectService.findById(projectCode));
         model.addAttribute("projectList", projectService.findByProjectDetail());
-        model.addAttribute("managers", userService.findAllByRole("manager"));
+        model.addAttribute("managers", userService.findAllByRoleDetail());
 
         return "/project/update";
     }
 
-    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAnyAuthority('Admin','Manager')")
     @PostMapping("/update/{projectStatus}")
     public String projectUpdateSave(@Valid @ModelAttribute("project") ProjectDTO project,BindingResult bindingResult, Model model){
 
         if (bindingResult.hasErrors()){
 
             model.addAttribute("projectList", projectService.findByProjectDetail());
-            model.addAttribute("managers", userService.findAllByRole("manager"));
+            model.addAttribute("managers", userService.findAllByRoleDetail());
             return "/project/update";
 
         }
@@ -97,6 +97,7 @@ public class ProjectControl {
         return "redirect:/project/create";
     }
 
+    @PreAuthorize("hasAuthority('Manager')")
     @GetMapping("/manager/project-status")
     public String projectStatus(Model model){
 
@@ -104,7 +105,8 @@ public class ProjectControl {
 
         return "/manager/project-status";
     }
-    @GetMapping("/manager/project-status/complete/{projectCode}")
+    @PreAuthorize("hasAuthority('Manager')")
+    @PostMapping("/manager/project-status/complete/{projectCode}")
     public String projectStatusComplete(@PathVariable("projectCode") String projectCode) {
 
         projectService.projectComplete(projectCode);
