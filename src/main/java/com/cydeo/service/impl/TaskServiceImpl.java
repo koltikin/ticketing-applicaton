@@ -40,6 +40,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<TaskDTO> findAllByManager() {
+        var username = SecurityContextHolder.getContext().getAuthentication().getName();
+        var manager = userService.findById(username);
+        return repository.findAllByProject_ProjectManager(userMapper.convertToEntity(manager)).stream()
+                .map(mapper::convertToDto).collect(Collectors.toList());
+    }
+
+    @Override
     public TaskDTO findById(Long id) {
         Optional<Task> task = repository.findById(id);
         if (task.isPresent()){
@@ -79,6 +87,7 @@ public class TaskServiceImpl implements TaskService {
     public int getAllUnfinishedTaskCount(String projectCode) {
         return repository.totalUnfinishedTaskCount(projectCode);
     }
+
 
     @Override
     public List<TaskDTO> getAllTasksNotCompleted() {

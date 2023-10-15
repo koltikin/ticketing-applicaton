@@ -14,6 +14,7 @@ public interface TaskService extends CrudService<TaskDTO, Long>{
 
     int getAllCompletedTaskCount(String projectCode);
     int getAllUnfinishedTaskCount(String projectCode);
+    List<TaskDTO>findAllByManager();
 
     List<TaskDTO> getAllTasksNotCompleted();
 
