@@ -90,11 +90,15 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectDTO> findByProjectDetail() {
         String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        UserDTO currentManagerDTO = userService.findById(userName);
-
-        User currentManager = userMapper.convertToEntity(currentManagerDTO);
-        List<Project> projects = repository.findByProjectManager(currentManager);
+        List<Project> projects;
+        UserDTO currentUser = userService.findById(userName);
+        if (currentUser.getRole().getDescription().equals("Admin")){
+             projects = repository.findAll();
+        }
+        else {
+            User currentManager = userMapper.convertToEntity(currentUser);
+             projects = repository.findByProjectManager(currentManager);
+        }
 
         return  projects.stream().map(prj->{
             ProjectDTO prjDTO = mapper.convertToDto(prj);

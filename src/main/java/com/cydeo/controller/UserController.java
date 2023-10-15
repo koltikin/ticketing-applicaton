@@ -18,8 +18,8 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@PreAuthorize("hasAuthority('Admin')")
 @RequestMapping("/user")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
@@ -34,7 +34,7 @@ public class UserController {
     @PostMapping("/save")
     public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
-        bindingResult = userValidations.addCustomValidations(user,bindingResult);
+        bindingResult = userValidations.addCustomValidationsCreate(user,bindingResult);
 
         if(bindingResult.hasErrors()){
 
@@ -63,7 +63,9 @@ public class UserController {
     }
 
     @PostMapping("/update-save")
-    public String userUpdate(@ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
+    public String userUpdate(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
+        bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
+
         if (bindingResult.hasErrors()){
             model.addAttribute("roles",roleService.findAll());
             model.addAttribute("userList",userService.findAll());

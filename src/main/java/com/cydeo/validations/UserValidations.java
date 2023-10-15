@@ -12,10 +12,25 @@ import org.springframework.validation.FieldError;
 public class UserValidations {
 
     private final UserService userService;
-    public BindingResult addCustomValidations(UserDTO user, BindingResult bindingResult){
+    public BindingResult addCustomValidationsCreate(UserDTO user, BindingResult bindingResult){
 
         if (userService.isUserExist(user)) {
             bindingResult.addError(new FieldError("user", "userName", "User Already Exist"));
+        }
+        if (userService.isPasswordNotConfirmed(user)) {
+            bindingResult.addError(new FieldError("user", "passWordConfirm", "Pass Word didn't match"));
+        }
+        return bindingResult;
+    }
+
+    public BindingResult addCustomValidationsUpdate(UserDTO user, BindingResult bindingResult){
+
+        if (userService.isPasswordNotMatch(user)) {
+            bindingResult.addError(new FieldError("user", "passWord", "Pass Word didn't match"));
+        }else {
+            if (userService.isPasswordNotConfirmed(user)) {
+                bindingResult.addError(new FieldError("user", "passWordConfirm", "Pass Word didn't match"));
+            }
         }
         return bindingResult;
     }

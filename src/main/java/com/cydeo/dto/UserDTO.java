@@ -25,6 +25,8 @@ public class UserDTO {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password does not meet the requirements.")
     private String passWord;
 
+    private String passWordConfirm;
+
     private boolean enabled = true;
 
     @NotBlank(message = "phone number cannot be blank.")
