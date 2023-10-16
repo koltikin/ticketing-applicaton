@@ -13,4 +13,6 @@ public interface UserService extends CrudService<UserDTO,String>{
     Boolean isPasswordNotConfirmed(UserDTO user);
 
     Boolean isPasswordNotMatch(UserDTO userDTO);
+
+    Boolean isRoleChanged(UserDTO userDto);
 }

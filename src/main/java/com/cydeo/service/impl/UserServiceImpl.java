@@ -140,4 +140,10 @@ public class UserServiceImpl implements UserService {
         return !passwordsMatch;
     }
 
+    @Override
+    public Boolean isRoleChanged(UserDTO userDto) {
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
+
+        return !user.getRole().getDescription().equals(userDto.getRole().getDescription());
+    }
 }

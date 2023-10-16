@@ -1,5 +1,6 @@
 package com.cydeo.controller;
 
+import com.cydeo.config.AuthSuccessHandler;
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.RoleService;
@@ -25,6 +26,7 @@ public class UserController {
      private final RoleService roleService;
      private final UserService userService;
      private final UserValidations userValidations;
+     private final AuthSuccessHandler authSuccessHandler;
     @GetMapping("/create")
     public String userCreate(Model model){
         model.addAttribute("user",new UserDTO());
@@ -86,16 +88,34 @@ public class UserController {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("user",userService.findById(username));
         model.addAttribute("roles",roleService.findAll());
-        model.addAttribute("userList",userService.findAll());
 
         return "/user/edit";
     }
 
     @PreAuthorize("hasAnyAuthority('Admin','Manager','Employee')")
     @PostMapping("/edit")
-    public String userEditSave(@ModelAttribute("user") UserDTO user ){
-        return "redirect:/user/create";
-    }
+    public String userEditSave(@ModelAttribute("user") UserDTO user, BindingResult bindingResult,Model model){
 
+//       bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
+//
+//       if (bindingResult.hasFieldErrors()){
+//           String username = SecurityContextHolder.getContext().getAuthentication().getName();
+//           model.addAttribute("user",userService.findById(username));
+//           model.addAttribute("roles",roleService.findAll());
+//
+//           return "/user/edit";
+//       }
+       if (userService.isRoleChanged(user)){
+           return "redirect:/login";
+       }else {
+           if (user.getRole().getDescription().equals("Admin")) {
+               return "redirect:/user/create";
+           }
+           if (user.getRole().getDescription().equals("Manager")) {
+               return "redirect:/task/create";
+           }
+           return "redirect:/task/pending-tasks";
+       }
+    }
 
 }

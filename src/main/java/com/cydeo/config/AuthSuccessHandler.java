@@ -28,4 +28,6 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect("/task/pending-tasks");
         }
     }
+
+
 }
