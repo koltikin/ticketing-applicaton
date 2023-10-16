@@ -33,6 +33,9 @@
                 </div>
                 <input type="submit" name="login-submit" id="login-submit"
                        class="form-control btn btn-primary btn-lg btn-block" value="Log In"/>
+                <div th:if="${param.error}" class="m-2">
+                    <a href="/user/resetpassword" class="link-blue-underline" >forgot password?</a>
+                </div>
             </form>
         </div>
     </div>

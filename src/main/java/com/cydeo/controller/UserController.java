@@ -102,16 +102,21 @@ public class UserController {
            return "/user/edit";
        }
        if (userService.isRoleChanged(user)){
-           return "redirect:/login";
+           userService.update(user);
        }else {
-           if (user.getRole().getDescription().equals("Admin")) {
-               return "redirect:/user/create";
+           switch (user.getRole().getDescription()){
+               case "Admin" :
+                   userService.update(user);
+                   return "redirect:/user/create";
+               case "Manager" :
+                   userService.update(user);
+                   return "redirect:/task/create";
+               case "Employee" :
+                   userService.update(user);
+                   return "redirect:/task/pending-tasks";
            }
-           if (user.getRole().getDescription().equals("Manager")) {
-               return "redirect:/task/create";
-           }
-           return "redirect:/task/pending-tasks";
        }
+        return "redirect:/login";
     }
 
 }
