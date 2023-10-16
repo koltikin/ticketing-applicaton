@@ -67,7 +67,6 @@ public class UserController {
 
     @PostMapping("/update-save")
     public String userUpdate(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
-//        bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
 
         if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
                 || bindingResult.hasFieldErrors("userName")|| bindingResult.hasFieldErrors("phone")
@@ -94,17 +93,14 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('Admin','Manager','Employee')")
     @PostMapping("/edit")
-    public String userEditSave(@ModelAttribute("user") UserDTO user, BindingResult bindingResult,Model model){
+    public String userEditSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult,Model model){
 
-//       bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
-//
-//       if (bindingResult.hasFieldErrors()){
-//           String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//           model.addAttribute("user",userService.findById(username));
-//           model.addAttribute("roles",roleService.findAll());
-//
-//           return "/user/edit";
-//       }
+       bindingResult = userValidations.addCustomValidationsEdit(user,bindingResult);
+
+       if (bindingResult.hasErrors()){
+           model.addAttribute("roles",roleService.findAll());
+           return "/user/edit";
+       }
        if (userService.isRoleChanged(user)){
            return "redirect:/login";
        }else {

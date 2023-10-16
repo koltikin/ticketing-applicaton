@@ -21,13 +21,11 @@ public class UserDTO {
     @Email(message = "please enter a valid email.")
     private String userName;
 
-    @NotBlank(message = "Password is required.")
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password does not meet the requirements.")
-    private String passWord;
+    private String OldPassWord;
 
     @NotBlank(message = "Password is required.")
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password does not meet the requirements.")
-    private String newPassWord;
+    private String passWord;
 
     private String passWordConfirm;
 

@@ -102,11 +102,11 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label for="password" class="col-form-label">Old Password</label>
-                                                    <input id="password" type="password" placeholder="old password" th:field="*{passWord}" class="form-control">
+                                                    <input id="password" type="password" placeholder="old password" th:field="*{oldPassWord}" class="form-control">
 
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passWord')}">
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('oldPassWord')}">
                                                         <ul>
-                                                            <li th:each="err : ${#fields.errors('passWord')}"
+                                                            <li th:each="err : ${#fields.errors('oldPassWord')}"
                                                                 th:text="${err}"></li>
                                                         </ul>
                                                     </div>
@@ -117,11 +117,11 @@
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label for="new_password" class="col-form-label">New Password</label>
-                                                    <input id="new_password" type="password" th:field="*{newPassWord}" placeholder="new password" class="form-control">
+                                                    <input id="new_password" type="password" th:field="*{passWord}" placeholder="new password" class="form-control">
 
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('newPassWord')}">
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('passWord')}">
                                                         <ul>
-                                                            <li th:each="err : ${#fields.errors('newPassWord')}"
+                                                            <li th:each="err : ${#fields.errors('passWord')}"
                                                                 th:text="${err}"></li>
                                                         </ul>
                                                     </div>
