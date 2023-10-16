@@ -1,5 +1,6 @@
 package com.cydeo.controller;
 
+import com.cydeo.config.AuthSuccessHandler;
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.service.RoleService;
@@ -7,6 +8,7 @@ import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +26,7 @@ public class UserController {
      private final RoleService roleService;
      private final UserService userService;
      private final UserValidations userValidations;
+     private final AuthSuccessHandler authSuccessHandler;
     @GetMapping("/create")
     public String userCreate(Model model){
         model.addAttribute("user",new UserDTO());
@@ -64,7 +67,6 @@ public class UserController {
 
     @PostMapping("/update-save")
     public String userUpdate(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
-//        bindingResult = userValidations.addCustomValidationsUpdate(user,bindingResult);
 
         if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
                 || bindingResult.hasFieldErrors("userName")|| bindingResult.hasFieldErrors("phone")
@@ -79,5 +81,37 @@ public class UserController {
         return "redirect:/user/create";
     }
 
+    @PreAuthorize("hasAnyAuthority('Admin','Manager','Employee')")
+    @GetMapping("/edit")
+    public String userEdit(Model model){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("user",userService.findById(username));
+        model.addAttribute("roles",roleService.findAll());
+
+        return "/user/edit";
+    }
+
+    @PreAuthorize("hasAnyAuthority('Admin','Manager','Employee')")
+    @PostMapping("/edit")
+    public String userEditSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult,Model model){
+
+       bindingResult = userValidations.addCustomValidationsEdit(user,bindingResult);
+
+       if (bindingResult.hasErrors()){
+           model.addAttribute("roles",roleService.findAll());
+           return "/user/edit";
+       }
+       if (userService.isRoleChanged(user)){
+           return "redirect:/login";
+       }else {
+           if (user.getRole().getDescription().equals("Admin")) {
+               return "redirect:/user/create";
+           }
+           if (user.getRole().getDescription().equals("Manager")) {
+               return "redirect:/task/create";
+           }
+           return "redirect:/task/pending-tasks";
+       }
+    }
 
 }

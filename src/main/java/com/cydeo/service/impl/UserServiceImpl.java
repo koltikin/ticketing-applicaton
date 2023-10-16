@@ -135,9 +135,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean isPasswordNotMatch(UserDTO userDto) {
         var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
-        boolean passwordsMatch = passwordEncoder.matches(userDto.getPassWord(), user.getPassWord());
+        boolean passwordsMatch = passwordEncoder.matches(userDto.getOldPassWord(), user.getPassWord());
 
         return !passwordsMatch;
     }
 
+    @Override
+    public Boolean isRoleChanged(UserDTO userDto) {
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
+
+        return !user.getRole().getDescription().equals(userDto.getRole().getDescription());
+    }
 }

@@ -23,10 +23,10 @@ public class UserValidations {
         return bindingResult;
     }
 
-    public BindingResult addCustomValidationsUpdate(UserDTO user, BindingResult bindingResult){
+    public BindingResult addCustomValidationsEdit(UserDTO user, BindingResult bindingResult){
 
         if (userService.isPasswordNotMatch(user)) {
-            bindingResult.addError(new FieldError("user", "passWord", "Pass Word didn't match"));
+            bindingResult.addError(new FieldError("user", "oldPassWord", "Pass Word didn't match"));
         }else {
             if (userService.isPasswordNotConfirmed(user)) {
                 bindingResult.addError(new FieldError("user", "passWordConfirm", "Pass Word didn't match"));
