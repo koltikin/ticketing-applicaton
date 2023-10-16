@@ -7,6 +7,7 @@ import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -76,6 +77,23 @@ public class UserController {
 
         userService.update(user);
 
+        return "redirect:/user/create";
+    }
+
+    @PreAuthorize("hasAnyAuthority('Admin','Manager','Employee')")
+    @GetMapping("/edit")
+    public String userEdit(Model model){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("user",userService.findById(username));
+        model.addAttribute("roles",roleService.findAll());
+        model.addAttribute("userList",userService.findAll());
+
+        return "/user/edit";
+    }
+
+    @PreAuthorize("hasAnyAuthority('Admin','Manager','Employee')")
+    @PostMapping("/edit")
+    public String userEditSave(@ModelAttribute("user") UserDTO user ){
         return "redirect:/user/create";
     }
 

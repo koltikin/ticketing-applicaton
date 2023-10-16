@@ -25,6 +25,10 @@ public class UserDTO {
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password does not meet the requirements.")
     private String passWord;
 
+    @NotBlank(message = "Password is required.")
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "Password does not meet the requirements.")
+    private String newPassWord;
+
     private String passWordConfirm;
 
     private boolean enabled = true;
