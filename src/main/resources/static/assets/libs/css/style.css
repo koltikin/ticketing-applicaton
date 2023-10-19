@@ -1957,14 +1957,16 @@ Splash Container / Wrapper
 -------------------------*/
 
 .splash-container {
+    border-radius: 40px;
     width: 100%;
-    max-width: 375px;
-    padding: 15px;
+    max-width: 450px;
+    padding: 90px 15px 15px 15px;
     margin: auto;
+    position: relative;
 }
 
 .splash-container .card-header {
-    padding: 20px;
+    padding: 60px;
 }
 
 .splash-description {
@@ -1985,6 +1987,19 @@ Splash Container / Wrapper
 
 .splash-container .card-footer-item {
     padding: 12px 28px;
+}
+
+.splash-container::after {
+    content: "";
+    position: absolute;
+    top: 90px;
+    left: 15px;
+    width: 92%;
+    height: 79%;
+    background: white; /* Adjust the background color and opacity as needed */
+    z-index: -1; /* Place the overlay behind the content */
+    border-radius: 8px; /* Adjust the border radius to match your container */
+    box-shadow: 0 0 25px 15px rgba(0, 0, 0, 0.15); /* Adjust the shadow properties as needed */
 }
 
 
@@ -3221,7 +3236,8 @@ btn-link
     font-size: 14px;
 }
 
-.card-body {}
+.card-body {
+}
 
 .card-text {}
 

@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "tasks")
 @Where(clause = "is_deleted = false")
