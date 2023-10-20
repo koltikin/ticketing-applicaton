@@ -33,6 +33,7 @@
 
                                     <!-- ------------------------FORM START----------------------------- -->
                                     <form th:object="${user}" th:action="@{/user/update-save}" method="post">
+
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
@@ -130,6 +131,44 @@
 <!--                                        </div>-->
 
                                         <div class="row">
+
+                                            <div class="col-sm-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label>User Status</label>
+                                                    <select name="Status" th:field="*{enabled}" class="custom-select">
+                                                        <option  th:each="status:${userStatuses}" th:value="${status.getValue()}" th:text="${status.getDescription()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="invalid-feedback" th:if="${#fields.hasErrors('enabled')}">
+                                                    <ul>
+                                                        <li th:each="err : ${#fields.errors('enabled')}"
+                                                            th:text="${err}"></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Choose a Role</label>
+                                                    <select name="role" th:field="*{role}" class="custom-select">
+<!--                                                        <option  th:value = "''" th:text="Select"></option>-->
+                                                        <option  th:each="role:${roles}" th:value="${role.id}" th:text="${role.description}"></option>
+                                                    </select>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('role')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('role')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
                                                     <label>Gender</label><br>
@@ -152,27 +191,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-6 col-md-6">
-                                                <div class="form-group">
-                                                    <label>Choose a Role</label>
-                                                    <select name="role" th:field="*{role}" class="custom-select">
-<!--                                                        <option  th:value = "''" th:text="Select"></option>-->
-                                                        <option  th:each="role:${roles}" th:value="${role.id}" th:text="${role.description}"></option>
-                                                    </select>
-
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('role')}">
-                                                        <ul>
-                                                            <li th:each="err : ${#fields.errors('role')}"
-                                                                th:text="${err}"></li>
-                                                        </ul>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-6 col-md-6 col-lg-12">
+                                            <div class="col-sm-6 col-md-6 user-create-save">
                                                 <div class="float-right">
                                                     <button type="submit" class="btn btn-success">Update</button>
                                                 </div>

@@ -64,6 +64,7 @@ public class UserController {
         model.addAttribute("user",userService.findById(username));
         model.addAttribute("roles",roleService.findAll());
         model.addAttribute("userList",userService.findAll());
+        model.addAttribute("userStatuses", UserStatus.values());
 
         return "/user/update";
     }
@@ -73,9 +74,11 @@ public class UserController {
 
         if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
                 || bindingResult.hasFieldErrors("userName")|| bindingResult.hasFieldErrors("phone")
-                || bindingResult.hasFieldErrors("role")|| bindingResult.hasFieldErrors("gender")){
+                || bindingResult.hasFieldErrors("role")|| bindingResult.hasFieldErrors("gender")
+                || bindingResult.hasFieldErrors("enabled")){
             model.addAttribute("roles",roleService.findAll());
             model.addAttribute("userList",userService.findAll());
+            model.addAttribute("userStatuses", UserStatus.values());
             return "/user/update";
         }
 
