@@ -1,6 +1,7 @@
 package com.cydeo.entity.common;
 
 import com.cydeo.entity.User;
+import com.cydeo.enums.UserStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -56,5 +57,13 @@ public class UserPrincipal implements UserDetails {
     }
     public Long getId(){
         return this.user.getId();
+    }
+    public String getRole(){
+        return this.user.getRole().getDescription();
+    }
+
+    public String getEnabled(){
+        if (user.isEnabled()) return "Active";
+        return "Inactive";
     }
 }
