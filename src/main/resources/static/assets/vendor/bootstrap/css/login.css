@@ -142,3 +142,7 @@ input:valid ~ label{
   padding: 14px 14px;
 
 }
+
+.user-create-save{
+  width: 100px ;
+}

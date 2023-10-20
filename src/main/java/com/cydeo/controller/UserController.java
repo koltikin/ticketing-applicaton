@@ -3,6 +3,7 @@ package com.cydeo.controller;
 import com.cydeo.config.AuthSuccessHandler;
 import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.enums.UserStatus;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
@@ -32,6 +33,7 @@ public class UserController {
         model.addAttribute("user",new UserDTO());
         model.addAttribute("roles",roleService.findAll());
         model.addAttribute("userList",userService.findAll());
+        model.addAttribute("userStatuses", UserStatus.values());
         return "user/create";
     }
     @PostMapping("/save")
@@ -43,6 +45,7 @@ public class UserController {
 
             model.addAttribute("roles",roleService.findAll());
             model.addAttribute("userList",userService.findAll());
+            model.addAttribute("userStatuses", UserStatus.values());
 
             return "user/create";
         }

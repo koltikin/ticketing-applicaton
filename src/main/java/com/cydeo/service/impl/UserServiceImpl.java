@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void save(UserDTO dto) {
-        dto.setEnabled(true);
+//        dto.setEnabled(true);
         dto.setPassWord(passwordEncoder.encode(dto.getPassWord()));
         repository.save(mapper.convertToEntity(dto));
 

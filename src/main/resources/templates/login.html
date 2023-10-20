@@ -30,7 +30,7 @@
 
                 <div class="form-group custom-input-field pt-2" th:classappend="${param.error} ? 'error' : ''">
                         <div class="input-container">
-                            <input type="password" id="password" name="username" required spellcheck="false">
+                            <input type="password" id="password" name="password" required spellcheck="false">
                             <label for="password">Password</label>
                         </div>
                         <div class="password-toggle">
@@ -50,8 +50,8 @@
                 </div>
 
                 <div class="pb-3">
-                    <input type="submit" name="login-submit" id="login-submit"
-                     class="btn-modern" value="Log In"/>
+                    <button type="submit" name="login-submit" id="login-submit"
+                            class="btn-modern" value="">Log In</button>
                 </div>
 
             </form>

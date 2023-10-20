@@ -134,21 +134,16 @@
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6">
                                                 <div class="form-group">
-                                                    <label>Gender</label><br>
-                                                    <label class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" name="radio-inline" th:field="*{gender}" th:value="MALE" class="custom-control-input"><span class="custom-control-label">Male</span>
-                                                    </label>
-                                                    <label class="custom-control custom-radio custom-control-inline">
-                                                        <input type="radio" name="radio-inline" th:field="*{gender}" th:value="FEMALE" class="custom-control-input"><span class="custom-control-label">Female</span>
-                                                    </label>
-
-                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('gender')}">
-                                                        <ul>
-                                                            <li th:each="err : ${#fields.errors('gender')}"
-                                                                th:text="${err}"></li>
-                                                        </ul>
-                                                    </div>
-
+                                                    <label>User Status</label>
+                                                    <select name="Status" th:field="*{enabled}" class="custom-select">
+                                                        <option  th:each="status:${userStatuses}" th:value="${status.getValue()}" th:text="${status.getDescription()}"></option>
+                                                    </select>
+                                                </div>
+                                                <div class="invalid-feedback" th:if="${#fields.hasErrors('enabled')}">
+                                                    <ul>
+                                                        <li th:each="err : ${#fields.errors('enabled')}"
+                                                            th:text="${err}"></li>
+                                                    </ul>
                                                 </div>
                                             </div>
 
@@ -170,11 +165,31 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-6 col-md-6 col-lg-12">
-                                                <div class="float-right">
-                                                    <button type="submit" class="btn btn-success">Save</button>
+                                            <div class="col-sm-6 col-md-6">
+                                                <div class="form-group">
+                                                    <label>Gender</label><br>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="radio-inline" th:field="*{gender}" th:value="MALE" class="custom-control-input"><span class="custom-control-label">Male</span>
+                                                    </label>
+                                                    <label class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" name="radio-inline" th:field="*{gender}" th:value="FEMALE" class="custom-control-input"><span class="custom-control-label">Female</span>
+                                                    </label>
+
+                                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('gender')}">
+                                                        <ul>
+                                                            <li th:each="err : ${#fields.errors('gender')}"
+                                                                th:text="${err}"></li>
+                                                        </ul>
+                                                    </div>
+
                                                 </div>
                                             </div>
+                                            <div class="col-sm-6 col-md-6">
+                                                <div class="float-right pt-1">
+                                                    <button type="submit" class="btn btn-success user-create-save">Save</button>
+                                                </div>
+                                            </div>
+
                                         </div>
 
                                     </form>

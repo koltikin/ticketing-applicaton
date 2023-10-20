@@ -1995,7 +1995,7 @@ Splash Container / Wrapper
     top: 90px;
     left: 15px;
     width: 92%;
-    height: 79%;
+    height: 77%;
     background: white; /* Adjust the background color and opacity as needed */
     z-index: -1; /* Place the overlay behind the content */
     border-radius: 8px; /* Adjust the border radius to match your container */
