@@ -1957,9 +1957,8 @@ Splash Container / Wrapper
 -------------------------*/
 
 .splash-container {
-    border-radius: 40px;
     width: 100%;
-    max-width: 450px;
+    max-width: 420px;
     padding: 90px 15px 15px 15px;
     margin: auto;
     position: relative;
