@@ -38,7 +38,7 @@
   height: 60px;
   border-radius: 6px;
   font-size: 16px;
-  /*padding: 0 15px;*/
+  padding: 0 15px;
   border: 0.5px solid #2d333a;
   background: #ffffff;
   color: black;
@@ -83,10 +83,10 @@ input:valid ~ label{
 
 .password-toggle {
   background: white;
-  padding: 7px;
+  padding: 12px 15px 12px 15px;
   position: absolute;
   top: 57%; /* Adjust vertical positioning */
-  right: 8px; /* Adjust horizontal positioning */
+  right: 2px; /* Adjust horizontal positioning */
   transform: translateY(-50%); /* Vertically center the icon */
   cursor: pointer;
   font-size: 18px;

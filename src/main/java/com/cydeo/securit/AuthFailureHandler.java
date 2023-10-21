@@ -13,12 +13,11 @@ import java.io.IOException;
 
 @Component
 public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception, Model model) throws ServletException, IOException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws ServletException, IOException {
         // Retrieve the username from the request, e.g., from a form parameter
         String username = request.getParameter(UsernamePasswordAuthenticationFilter.SPRING_SECURITY_FORM_USERNAME_KEY);
-         model.addAttribute("username",username);
         // Customize the URL by appending the "error" and "username" parameters
-        String redirectUrl = "/user/login-fail";
+        String redirectUrl = "/login?error=true&username="+username;
 
         // Redirect to the customized URL
         super.setDefaultFailureUrl(redirectUrl);
