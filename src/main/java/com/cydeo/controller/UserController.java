@@ -18,13 +18,13 @@ import javax.validation.Valid;
 
 @Controller
 @AllArgsConstructor
-@PreAuthorize("hasAuthority('Admin')")
 @RequestMapping("/user")
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
      private final UserValidations userValidations;
      private final AuthSuccessHandler authSuccessHandler;
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/create")
     public String userCreate(Model model){
         model.addAttribute("user",new UserDTO());
@@ -33,6 +33,7 @@ public class UserController {
         model.addAttribute("userStatuses", UserStatus.values());
         return "user/create";
     }
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/save")
     public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
@@ -50,11 +51,13 @@ public class UserController {
         return "redirect:/user/create";
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/delete/{userName}")
     public String userDelete(@PathVariable("userName") String username){
         userService.delete(username);
         return "redirect:/user/create";
     }
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/update/{userName}")
     public String userUpdate(@PathVariable("userName") String username, Model model){
 
@@ -66,6 +69,7 @@ public class UserController {
         return "/user/update";
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/update-save")
     public String userUpdate(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
@@ -122,10 +126,12 @@ public class UserController {
         return "redirect:/login";
     }
 
-//    @GetMapping("/reset-password")
-//    public String resetPasswordPage() {
-//        // Logic to display the reset password page
-//        return "user/reset-password"; // Thymeleaf template name
-//    }
+    @PostMapping("/email-sent")
+    public String EmailSent(@RequestParam("email") String email) {
+        if (!email.contains("@")){
+            return "redirect:/user/reset-password?error=true&email="+email;
+        }
+        return "/email-sent";
+    }
 
 }

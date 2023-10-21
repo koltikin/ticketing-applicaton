@@ -23,17 +23,11 @@
                 </div>
             </div>
 
-            <form>
-                <div class="form-group custom-input-field pt-2">
-                    <input type="text" id="username" name="username" required spellcheck="false">
-                    <label for="username">Email Address</label>
-                </div>
+            <form th:action="@{/user/email-sent}" method="post">
+
                 <div class="pb-2 pt-2">
                     <button type="submit" name="reset-submit" id="reset-submit"
-                            class="btn-modern" value="">Continue</button>
-                </div>
-                <div class="reset-password pl-2 text-center pt-3 pb-4">
-                    <a href="user/reset-password">Back to Login</a>
+                            class="btn-modern" value="">Resend Email</button>
                 </div>
 
             </form>

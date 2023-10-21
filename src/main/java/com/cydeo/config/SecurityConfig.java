@@ -62,6 +62,7 @@ public class SecurityConfig {
                 .antMatchers("/",
                         "/login",
                         "/user/reset-password",
+                        "/user/email-sent",
                         "/fragments/**",
                         "/assets/**",
                         "/images/**"
