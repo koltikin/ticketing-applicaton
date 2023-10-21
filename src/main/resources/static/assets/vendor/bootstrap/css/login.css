@@ -11,6 +11,18 @@
   font-size: 16px;
   display: inline;
 }
+.invalid-password-or-username p{
+  color: black;
+  font-size: 16px;
+}
+
+.invalid-password-or-username span{
+  color: black;
+  font-size: 14px;
+}
+
+
+
 .icon-text {
   display: flex;
   align-items: center;
@@ -28,6 +40,18 @@
 .error input:focus ~ label,
 .error input:valid ~ label{
   color: red;
+}
+
+.custom-input-field p{
+  font-size: 18px;
+  text-align: center;
+
+}
+.custom-input-field span{
+  font-size: 14px;
+  align-content: center;
+  text-justify: auto;
+
 }
 
 .custom-input-field{

@@ -16,8 +16,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/welcome").setViewName("welcome");
-        registry.addViewController("/login").setViewName("login");
         registry.addViewController("/").setViewName("login");
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/user/reset-password").setViewName("user/reset-password");
     }
     @Bean
     public ModelMapper mapper(){

@@ -122,4 +122,10 @@ public class UserController {
         return "redirect:/login";
     }
 
+//    @GetMapping("/reset-password")
+//    public String resetPasswordPage() {
+//        // Logic to display the reset password page
+//        return "user/reset-password"; // Thymeleaf template name
+//    }
+
 }
