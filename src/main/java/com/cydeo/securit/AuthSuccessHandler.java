@@ -1,4 +1,4 @@
-package com.cydeo.config;
+package com.cydeo.securit;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

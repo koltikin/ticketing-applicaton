@@ -1,9 +1,8 @@
 package com.cydeo.controller;
 
-import com.cydeo.config.AuthSuccessHandler;
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.enums.UserStatus;
+import com.cydeo.securit.AuthSuccessHandler;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
@@ -13,11 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
