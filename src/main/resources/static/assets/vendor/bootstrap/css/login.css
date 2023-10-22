@@ -170,3 +170,34 @@ input:valid ~ label{
 .user-create-save{
   width: 100px ;
 }
+
+.email-send{
+  width: 100%;
+  height: 100%;
+  padding-bottom: 15px;
+}
+
+.resend-email {
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  width: 100%;
+  background: linear-gradient(to right, #45a4d6, #45a4d6 50%, #3589b5 50%, #3589b5);
+  background-size: 200% 100%;
+  color: #fff;
+  padding: 16px 0 16px 0;
+  border-radius: 45px;
+  cursor: pointer;
+  transition: background-position 0.3s ease, color 0.3s ease;
+}
+
+.resend-email:hover {
+  background-position: -100% 0;
+  color: #fff; /* Change color if needed */
+}
+.resend-email:active {
+  background: #45a4d6 !important;
+  border: 2px solid lightskyblue !important;
+  padding: 14px 14px;
+
+}

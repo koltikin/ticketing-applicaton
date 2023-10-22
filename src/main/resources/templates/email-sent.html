@@ -8,28 +8,33 @@
 <body>
 <div class="splash-container ">
     <div class="card">
-        <div class="card-header text-center">
-            <img class="logo-img" th:src="@{/images/cydeo-logo.svg}" height="45" alt="logo">
-        </div>
-        <div class="card-body ml-lg-3 mr-lg-3">
+<!--        <div class="card-header text-center">-->
+<!--            <img class="logo-img" th:src="@{/images/cydeo-logo.svg}" height="45" alt="logo">-->
+<!--        </div>-->
+        <div class="card-body ml-lg-3 mr-lg-3 pt-5">
+            <div class="email-send text-center pb-3">
+                <img class="logo-img" th:src="@{/images/email-send.svg}" height="90">
+            </div>
 
             <div class="invalid-password-or-username">
                 <div class="form-group custom-input-field pt-2">
-                    <p>Forgot Your Password?</p>
-                    <div class="custom-input-field text-center">
-                        <span>Enter your email address and we will send you instructions to reset your password.</span>
+                    <p>Check Your Email</p>
+                    <div class="custom-input-field text-center pb-3">
+                        <span th:text="'Please check the email address ' + ${email} + ' for instructions to reset your password.'"></span>
                     </div>
-
                 </div>
             </div>
+            <form th:action="@{/user/reset-password}">
 
-            <form th:action="@{/user/email-sent}" method="post">
-
-                <div class="pb-2 pt-2">
-                    <button type="submit" name="reset-submit" id="reset-submit"
-                            class="btn-modern" value="">Resend Email</button>
+                <div class="form-group custom-input-field pt-2" th:hidden="true" >
+                    <input type="text" id="email" name="email" th:value="${email}" required spellcheck="false">
+                    <label for="email">Email Address</label>
                 </div>
 
+                <div class="pb-5 pt-3">
+                    <button type="submit" id="resend-email"
+                               class="resend-email">Resend Email</button>
+                </div>
             </form>
         </div>
     </div>
