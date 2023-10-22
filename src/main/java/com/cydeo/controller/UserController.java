@@ -125,14 +125,4 @@ public class UserController {
        }
         return "redirect:/login";
     }
-
-    @PostMapping("/email-sent")
-    public String EmailSent(@RequestParam("email") String email, Model model) {
-        if (!email.contains("@")){
-            return "redirect:/user/reset-password?error=true&email="+email;
-        }
-        model.addAttribute("email",email);
-        return "/email-sent";
-    }
-
 }
