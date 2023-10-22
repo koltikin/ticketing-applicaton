@@ -5,17 +5,20 @@ import com.cydeo.dto.RoleDTO;
 import com.cydeo.entity.Role;
 import com.cydeo.mapper.RoleMapper;
 import com.cydeo.service.RoleService;
-import lombok.AllArgsConstructor;
+import com.cydeo.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
     private final RoleRepository repository;
     private final RoleMapper roleMapper;
+    private final UserService userService;
+
     @Override
     public List<RoleDTO> findAll() {
         List<Role> roleList = repository.findAll();
@@ -45,5 +48,4 @@ public class RoleServiceImpl implements RoleService {
     public void delete(Long Id) {
 
     }
-
 }

@@ -1,24 +1,25 @@
 package com.cydeo.config;
 
+import com.cydeo.securit.AuthFailureHandler;
+import com.cydeo.securit.AuthSuccessHandler;
 import com.cydeo.service.SecurityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final SecurityService securityService;
     private final AuthSuccessHandler authSuccessHandler;
-
-    public SecurityConfig(SecurityService securityService, AuthSuccessHandler authSuccessHandler) {
-        this.securityService = securityService;
-        this.authSuccessHandler = authSuccessHandler;
-    }
+    private final AuthFailureHandler authFailureHandler;
 
 
 //    @Bean
@@ -60,6 +61,8 @@ public class SecurityConfig {
 
                 .antMatchers("/",
                         "/login",
+                        "/user/reset-password",
+                        "/user/email-sent",
                         "/fragments/**",
                         "/assets/**",
                         "/images/**"
@@ -71,7 +74,8 @@ public class SecurityConfig {
                     .loginPage("/login")
 //                    .defaultSuccessUrl("/welcome")
                     .successHandler(authSuccessHandler)
-                    .failureUrl("/login?error=true")
+//                    .failureUrl("/login?error=true")
+                      .failureHandler(authFailureHandler)
                 .and()
                 .logout()
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

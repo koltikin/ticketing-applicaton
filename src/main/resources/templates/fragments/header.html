@@ -36,8 +36,11 @@
 
                             <div class="nav-user-info">
                                 <h5 class="mb-0 text-white nav-user-name"></h5>
-                                <span class="status">Status:    </span>
-                                <span class="ml-2">Available</span>
+<!--                                <span class=" ml-2" th:text="'Role: ' + ${#authentication.principal.getRole} +',     Status: ' + ${#authentication.principal.getEnabled}"></span>-->
+                                <span class="status">Role: </span>
+                                <span class="ml-2" th:text="${#authentication.principal.getRole}">Available</span>
+<!--                                <span class="status">Status: </span>-->
+<!--                                <span class="ml-2" th:text="${#authentication.principal.getEnabled}">Available</span>-->
                             </div>
                             <a class="dropdown-item" th:href="@{/user/edit}"><i class="fas fa-edit mr-2"></i>Edit User</a>
                             <a class="dropdown-item" th:href="@{/logout}"><i class="fas fa-power-off mr-2"></i>Logout</a>

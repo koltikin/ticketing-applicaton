@@ -1,41 +1,65 @@
 <!DOCTYPE html>
-
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head th:replace="/fragments/head :: head"></head>
-
+<link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/login.css}"/>
+<head th:replace="/fragments/head :: head" ></head>
 <body>
 <div class="splash-container">
-    <div class="card ">
+    <div class="card">
         <div class="card-header text-center">
-            <img class="logo-img" th:src="@{/images/CydeoLogo_01.png}" height="45" alt="logo">
+            <img class="logo-img" th:src="@{/images/cydeo-logo.svg}" height="45" alt="logo">
         </div>
-        <div class="card-body">
+        <div class="card-body ml-lg-3 mr-lg-3">
             <div th:if="${param.error}">
-                <div class="alert alert-danger">
-                    Invalid username or password. Please try again.
+                <div class="invalid-password-or-username">
+                    <div class="icon-text pb-2">
+                        Invalid username or password!
+                    </div>
                 </div>
             </div>
             <form th:action="@{/login}" method="post">
-                <div class="form-group">
-                    <label for="username">Email</label>:
-                    <input type="text" id="username" name="username" class="form-control" placeholder="username"/>
+
+                <div class="form-group custom-input-field pt-2" th:classappend="${param.error} ? 'error' : ''">
+
+                    <input type="text" id="username" name="username" th:value="${param.username}" required spellcheck="false">
+                    <label for="username">Enter Email</label>
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>:
-                    <input type="password" id="password" name="password" class="form-control" placeholder="password"/>
+                <div class="form-group custom-input-field pt-2" th:classappend="${param.error} ? 'error' : ''">
+                    <div class="input-container">
+                        <input type="password" id="password" name="password" required spellcheck="false">
+                        <label for="password">Password</label>
+                    </div>
+                    <div class="password-toggle">
+                        <i id="password-toggle-icon" class="far fa-eye-slash"></i>
+                    </div>
                 </div>
-                <div class="form-group">
+
+                <script>
+                    // JavaScript to clear the password field and focus on the email field
+                    // document.getElementById("password").value = "";
+                    document.getElementById("username").focus();
+                </script>
+
+                <div class="form-group pl-1 d-flex justify-content-between align-items-center">
                     <label class="custom-control custom-checkbox">
-                        <input class="custom-control-input" name="remember-me" type="checkbox"><span
-                            class="custom-control-label">Remember Me</span>
+                        <input class="custom-control-input" name="remember-me" type="checkbox">
+                        <span class="custom-control-label remember-me">Remember Me</span>
                     </label>
+
+<!--                    <div th:if="${param.error}" class="reset-password pl-2">-->
+<!--                        <a th:href="@{/user/reset-password}">Forgot password?</a>-->
+<!--                    </div>-->
+                    <div class="reset-password pl-2">
+                        <a href="/user/reset-password">Forgot password?</a>
+                    </div>
+
                 </div>
-                <input type="submit" name="login-submit" id="login-submit"
-                       class="form-control btn btn-primary btn-lg btn-block" value="Log In"/>
+                <div class="pb-3">
+                    <button type="submit" name="login-submit" id="login-submit" class="btn-modern" value="">Log In</button>
+                </div>
             </form>
         </div>
     </div>
 </div>
+<script src="/assets/vendor/bootstrap/js/login-pass.js"></script>
 </body>
 </html>

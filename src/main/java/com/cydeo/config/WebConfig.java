@@ -8,16 +8,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.net.PasswordAuthentication;
-
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/welcome").setViewName("welcome");
-        registry.addViewController("/login").setViewName("login");
         registry.addViewController("/").setViewName("login");
+        registry.addViewController("/login").setViewName("login");
+        registry.addViewController("/user/reset-password").setViewName("/reset-password");
     }
     @Bean
     public ModelMapper mapper(){

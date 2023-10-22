@@ -1,0 +1,172 @@
+/* Import Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+.remember-me{
+  font-size: 15px;
+}
+
+
+.invalid-password-or-username{
+  color: red;
+  font-size: 16px;
+  display: inline;
+}
+.invalid-password-or-username p{
+  color: black;
+  font-size: 16px;
+}
+
+.invalid-password-or-username span{
+  color: black;
+  font-size: 14px;
+}
+
+
+
+.icon-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-text i {
+  margin-right: 5px; /* Adjust the margin as needed for spacing */
+}
+
+.error label {
+  color: red;
+}
+
+.error input:focus ~ label,
+.error input:valid ~ label{
+  color: red;
+}
+
+.custom-input-field p{
+  font-size: 18px;
+  text-align: center;
+
+}
+.custom-input-field span{
+  font-size: 14px;
+  align-content: center;
+  text-justify: auto;
+
+}
+
+.custom-input-field{
+  position: relative;
+}
+.custom-input-field input{
+  width: 100%;
+  height: 60px;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 0 15px;
+  border: 0.5px solid #2d333a;
+  background: #ffffff;
+  color: black;
+  outline: none;
+}
+.error input {
+  border: 0.5px solid red;
+}
+
+.error input:focus{
+  border: 1px solid red;
+}
+.custom-input-field label{
+  position: absolute;
+  padding-top: 2px;
+  top: 50%;
+  left: 20px;
+  transform: translateY(-50%);
+  font-size: 17px;
+  pointer-events: none;
+  transition: 0.3s;
+}
+
+input:focus{
+  border: 1px solid #635dff;
+  background: #ffffff;
+  outline: none;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset; /* Override background color */
+}
+input:focus ~ label,
+input:valid ~ label{
+  top: 10%;
+  left: 8px;
+  font-size: 14px;
+  padding: 0 3px;
+  color: #635dff;
+  background: #ffffff;
+}
+
+.password-toggle {
+  background: white;
+  padding: 12px 15px 12px 15px;
+  position: absolute;
+  top: 57%; /* Adjust vertical positioning */
+  right: 2px; /* Adjust horizontal positioning */
+  transform: translateY(-50%); /* Vertically center the icon */
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.reset-password a {
+  top: -3px;
+  color: #635dff;
+  font-weight: bold;
+  font-size: 16px;
+  text-decoration: none;
+  position: relative;
+}
+
+.reset-password a::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1.5px;
+  bottom: -3px;
+  left: 0;
+  background-color: #635dff;
+  transition: width 0.3s ease;
+}
+
+.reset-password a:hover::before {
+  width: 100%;
+}
+
+
+/* Add these styles to your CSS */
+.btn-modern {
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  width: 100%;
+  background: linear-gradient(to right, #45a4d6, #45a4d6 50%, #3589b5 50%, #3589b5);
+  background-size: 200% 100%;
+  color: #fff;
+  padding: 16px 0 16px 0;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-position 0.3s ease, color 0.3s ease;
+}
+
+.btn-modern:hover {
+  background-position: -100% 0;
+  color: #fff; /* Change color if needed */
+}
+.btn-modern:active {
+  background: #45a4d6 !important;
+  border: 2px solid lightskyblue !important;
+  padding: 14px 14px;
+
+}
+
+.user-create-save{
+  width: 100px ;
+}

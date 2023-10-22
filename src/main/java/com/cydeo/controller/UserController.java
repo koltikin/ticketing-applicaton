@@ -1,8 +1,8 @@
 package com.cydeo.controller;
 
-import com.cydeo.config.AuthSuccessHandler;
-import com.cydeo.dto.RoleDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.enums.UserStatus;
+import com.cydeo.securit.AuthSuccessHandler;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
@@ -12,28 +12,28 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @AllArgsConstructor
-@PreAuthorize("hasAuthority('Admin')")
 @RequestMapping("/user")
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
      private final UserValidations userValidations;
      private final AuthSuccessHandler authSuccessHandler;
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/create")
     public String userCreate(Model model){
         model.addAttribute("user",new UserDTO());
         model.addAttribute("roles",roleService.findAll());
         model.addAttribute("userList",userService.findAll());
+        model.addAttribute("userStatuses", UserStatus.values());
         return "user/create";
     }
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/save")
     public String userSave(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
@@ -43,6 +43,7 @@ public class UserController {
 
             model.addAttribute("roles",roleService.findAll());
             model.addAttribute("userList",userService.findAll());
+            model.addAttribute("userStatuses", UserStatus.values());
 
             return "user/create";
         }
@@ -50,29 +51,35 @@ public class UserController {
         return "redirect:/user/create";
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/delete/{userName}")
     public String userDelete(@PathVariable("userName") String username){
         userService.delete(username);
         return "redirect:/user/create";
     }
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/update/{userName}")
     public String userUpdate(@PathVariable("userName") String username, Model model){
 
         model.addAttribute("user",userService.findById(username));
         model.addAttribute("roles",roleService.findAll());
         model.addAttribute("userList",userService.findAll());
+        model.addAttribute("userStatuses", UserStatus.values());
 
         return "/user/update";
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/update-save")
     public String userUpdate(@Valid @ModelAttribute("user") UserDTO user, BindingResult bindingResult, Model model){
 
         if (bindingResult.hasFieldErrors("firstName") || bindingResult.hasFieldErrors("lastName")
                 || bindingResult.hasFieldErrors("userName")|| bindingResult.hasFieldErrors("phone")
-                || bindingResult.hasFieldErrors("role")|| bindingResult.hasFieldErrors("gender")){
+                || bindingResult.hasFieldErrors("role")|| bindingResult.hasFieldErrors("gender")
+                || bindingResult.hasFieldErrors("enabled")){
             model.addAttribute("roles",roleService.findAll());
             model.addAttribute("userList",userService.findAll());
+            model.addAttribute("userStatuses", UserStatus.values());
             return "/user/update";
         }
 
@@ -102,16 +109,29 @@ public class UserController {
            return "/user/edit";
        }
        if (userService.isRoleChanged(user)){
-           return "redirect:/login";
+           userService.update(user);
        }else {
-           if (user.getRole().getDescription().equals("Admin")) {
-               return "redirect:/user/create";
+           switch (user.getRole().getDescription()){
+               case "Admin" :
+                   userService.update(user);
+                   return "redirect:/user/create";
+               case "Manager" :
+                   userService.update(user);
+                   return "redirect:/task/create";
+               case "Employee" :
+                   userService.update(user);
+                   return "redirect:/task/pending-tasks";
            }
-           if (user.getRole().getDescription().equals("Manager")) {
-               return "redirect:/task/create";
-           }
-           return "redirect:/task/pending-tasks";
        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("/email-sent")
+    public String EmailSent(@RequestParam("email") String email) {
+        if (!email.contains("@")){
+            return "redirect:/user/reset-password?error=true&email="+email;
+        }
+        return "/email-sent";
     }
 
 }

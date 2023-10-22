@@ -29,6 +29,7 @@ public class UserDTO {
 
     private String passWordConfirm;
 
+    @NotNull(message = "User status is required.")
     private boolean enabled = true;
 
     @NotBlank(message = "phone number cannot be blank.")

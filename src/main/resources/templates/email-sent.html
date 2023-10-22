@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/login.css}"/>
+<head th:replace="/fragments/head :: head" ></head>
+
+<body>
+<div class="splash-container ">
+    <div class="card">
+        <div class="card-header text-center">
+            <img class="logo-img" th:src="@{/images/cydeo-logo.svg}" height="45" alt="logo">
+        </div>
+        <div class="card-body ml-lg-3 mr-lg-3">
+
+            <div class="invalid-password-or-username">
+                <div class="form-group custom-input-field pt-2">
+                    <p>Forgot Your Password?</p>
+                    <div class="custom-input-field text-center">
+                        <span>Enter your email address and we will send you instructions to reset your password.</span>
+                    </div>
+
+                </div>
+            </div>
+
+            <form th:action="@{/user/email-sent}" method="post">
+
+                <div class="pb-2 pt-2">
+                    <button type="submit" name="reset-submit" id="reset-submit"
+                            class="btn-modern" value="">Resend Email</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/assets/vendor/bootstrap/js/login-pass.js"></script>
+</body>
+</html>
