@@ -130,6 +130,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isUserExist(String username) {
+        return repository.existsByUserNameAndIsDeleted(username,false);
+    }
+
+    @Override
     public Boolean isPasswordNotConfirmed(UserDTO userDto) {
             return !userDto.getPassWord().equals(userDto.getPassWordConfirm());
     }
