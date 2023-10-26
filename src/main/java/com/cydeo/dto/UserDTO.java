@@ -30,7 +30,7 @@ public class UserDTO {
     private String passWordConfirm;
 
     @NotNull(message = "User status is required.")
-    private boolean enabled = true;
+    private boolean enabled;
 
     @NotBlank(message = "phone number cannot be blank.")
     @Pattern(regexp = "\\d{11}", message = "please enter a valid phone number.")

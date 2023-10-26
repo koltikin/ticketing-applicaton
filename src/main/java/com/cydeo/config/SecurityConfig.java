@@ -63,6 +63,8 @@ public class SecurityConfig {
                         "/login",
                         "/user/reset-password",
                         "/user/email-sent",
+                        "/user/verify",
+                        "/user/verify-user",
                         "/fragments/**",
                         "/assets/**",
                         "/images/**"

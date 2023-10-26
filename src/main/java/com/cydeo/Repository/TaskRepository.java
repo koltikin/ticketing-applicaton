@@ -1,16 +1,16 @@
 package com.cydeo.Repository;
 
-import com.cydeo.dto.ProjectDTO;
-import com.cydeo.dto.TaskDTO;
 import com.cydeo.entity.Project;
 import com.cydeo.entity.Task;
 import com.cydeo.entity.User;
 import com.cydeo.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface TaskRepository extends JpaRepository<Task,Long> {
     @Query("SELECT COUNT(t) FROM Task t WHERE t.project.projectCode = ?1 AND " +
             "t.taskStatus = 'COMPLETE'")

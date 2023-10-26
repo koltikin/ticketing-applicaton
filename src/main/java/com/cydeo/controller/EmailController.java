@@ -22,7 +22,7 @@ public class EmailController {
             return "redirect:/user/reset-password?exist=false&email="+email;
         }
 
-        emailService.sendEmail(email,"Reset Pass Word", "click the link and reset your pass word");
+        emailService.sendEmail(email);
 
         model.addAttribute("email",email);
         return "/email-sent";

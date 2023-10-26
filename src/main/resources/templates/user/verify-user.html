@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:if="${isVerifyied}">
+    Your account is verified.
+</h1>
+
+<h1 th:unless="${isVerifyied}">
+    invalid verify link
+</h1>
+
+</body>
+</html>
