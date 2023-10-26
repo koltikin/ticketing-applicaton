@@ -1,12 +1,18 @@
 package com.cydeo.controller;
 
+import com.cydeo.Repository.AccountConfirmationRepository;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.enums.UserStatus;
 import com.cydeo.securit.AuthSuccessHandler;
+//import com.cydeo.service.ConfirmationService;
+import com.cydeo.service.EmailService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,13 +23,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @Controller
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
      private final RoleService roleService;
      private final UserService userService;
      private final UserValidations userValidations;
      private final AuthSuccessHandler authSuccessHandler;
+     private final EmailService emailService;
+     @Autowired
+     private final AccountConfirmationRepository confirmationRepository;
+
+
     @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/create")
     public String userCreate(Model model){
@@ -48,7 +59,22 @@ public class UserController {
             return "user/create";
         }
         userService.save(user);
+        userService.saveUserConfirmation(user.getUserName());
+        emailService.sendEmail(user.getUserName());
+
         return "redirect:/user/create";
+    }
+
+    @GetMapping("/verify")
+    private String userVerify(@RequestParam("token") String token, Model model){
+        System.out.println(token);
+
+        AccountConfirmation confirmation = confirmationRepository.findByToken(token);
+        System.out.println(confirmation);
+
+        Boolean isVerifyied = userService.verifyUserAccount(token);
+        model.addAttribute("isVerifyied", isVerifyied);
+        return "/user/verify-user";
     }
 
     @PreAuthorize("hasAuthority('Admin')")
@@ -125,4 +151,5 @@ public class UserController {
        }
         return "redirect:/login";
     }
+
 }

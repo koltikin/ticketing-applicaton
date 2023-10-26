@@ -1,11 +1,14 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.Repository.AccountConfirmationRepository;
 import com.cydeo.Repository.UserRepository;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
+//import com.cydeo.service.ConfirmationService;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
@@ -26,13 +29,16 @@ public class UserServiceImpl implements UserService {
     private final ProjectService projectService;
     private final TaskService taskService;
     private final PasswordEncoder passwordEncoder;
+    private final AccountConfirmationRepository confirmationRepository;
 
-    public UserServiceImpl(UserMapper mapper, UserRepository repository, @Lazy ProjectService projectService, @Lazy TaskService taskService, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserMapper mapper, UserRepository repository, @Lazy ProjectService projectService, @Lazy TaskService taskService, PasswordEncoder passwordEncoder,
+                           AccountConfirmationRepository confirmationRepository) {
         this.mapper = mapper;
         this.repository = repository;
         this.projectService = projectService;
         this.taskService = taskService;
         this.passwordEncoder = passwordEncoder;
+        this.confirmationRepository = confirmationRepository;
     }
 
 
@@ -152,5 +158,37 @@ public class UserServiceImpl implements UserService {
         var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
 
         return !user.getRole().getDescription().equals(userDto.getRole().getDescription());
+    }
+
+    @Override
+    public Boolean isUserExistByEmail(String userName) {
+        return repository.existsByUserNameAndIsDeleted(userName,false);
+
+    }
+
+    @Override
+    public Boolean verifyUserAccount(String token) {
+
+        if (confirmationRepository.existsByToken(token)) {
+            AccountConfirmation confirmation = confirmationRepository.findByToken(token);
+            User user = repository.findByUserNameAndIsDeleted(confirmation.getUser().getUserName(),false);
+
+            user.setEnabled(true);
+            repository.save(user);
+
+            confirmation.setDeleted(true);
+            confirmationRepository.save(confirmation);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public void saveUserConfirmation(String userName) {
+        User user = mapper.convertToEntity(findById(userName));
+        AccountConfirmation confirmation = new AccountConfirmation(user);
+        confirmationRepository.save(confirmation);
     }
 }
