@@ -5,7 +5,6 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.enums.UserStatus;
 import com.cydeo.securit.AuthSuccessHandler;
-//import com.cydeo.service.ConfirmationService;
 import com.cydeo.service.EmailService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
@@ -66,12 +65,7 @@ public class UserController {
     }
 
     @GetMapping("/verify")
-    private String userVerify(@RequestParam("token") String token, Model model){
-        System.out.println(token);
-
-        AccountConfirmation confirmation = confirmationRepository.findByToken(token);
-        System.out.println(confirmation);
-
+    public String userVerify(@RequestParam("token") String token, Model model){
         Boolean isVerifyied = userService.verifyUserAccount(token);
         model.addAttribute("isVerifyied", isVerifyied);
         return "/user/verify-user";

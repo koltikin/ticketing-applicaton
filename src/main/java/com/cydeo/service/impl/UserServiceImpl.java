@@ -8,7 +8,6 @@ import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
-//import com.cydeo.service.ConfirmationService;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
