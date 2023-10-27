@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -20,8 +21,12 @@ public class AccountConfirmation{
     private User user;
     private boolean isDeleted;
 
+    @Column(columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdDate;
+
     public AccountConfirmation(User user) {
         this.token = UUID.randomUUID().toString();
         this.user = user;
+        this.createdDate = LocalDateTime.now();
     }
 }

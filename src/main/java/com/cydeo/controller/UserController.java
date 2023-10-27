@@ -2,16 +2,12 @@ package com.cydeo.controller;
 
 import com.cydeo.Repository.AccountConfirmationRepository;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.enums.UserStatus;
 import com.cydeo.securit.AuthSuccessHandler;
-import com.cydeo.service.EmailService;
 import com.cydeo.service.RoleService;
 import com.cydeo.service.UserService;
 import com.cydeo.validations.UserValidations;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -142,6 +138,28 @@ public class UserController {
            }
        }
         return "redirect:/login";
+    }
+    @PostMapping("/email-sent")
+    public String userPasswordResetEmail(@RequestParam("email") String email, Model model){
+        if ((email.substring(1,email.length()-1)).contains("@")){
+            Boolean isUserExist = userService.isUserExist(email);
+            if (isUserExist) {
+                userService.sendUserPassWordResetLink(email);
+                model.addAttribute("email",email);
+                return "/user/email-sent";
+            }
+            return "redirect:/user/reset-password?error=true&exist="+isUserExist+"&email="+email;
+        }
+        return "redirect:/user/reset-password?error=true&invalid=true&email="+email;
+    }
+
+    @GetMapping("/change-password")
+    public String userPassWordReset(@RequestParam("token") String token, Model model){
+
+        Boolean isResetable = userService.validateRestPassWord(token);
+        model.addAttribute("isResetable", isResetable);
+
+        return "/user/change-password";
     }
 
 }

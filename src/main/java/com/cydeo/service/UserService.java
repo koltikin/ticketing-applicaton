@@ -22,5 +22,7 @@ public interface UserService extends CrudService<UserDTO,String>{
 
     Boolean verifyUserAccount(String token);
     void sendUserVerificationEmail(String userName);
+    void sendUserPassWordResetLink(String email);
+    Boolean validateRestPassWord(String token);
 
 }
