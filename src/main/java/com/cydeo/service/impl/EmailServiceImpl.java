@@ -20,33 +20,20 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
     private final Environment environment;
     private final JavaMailSender mailSender;
-    private final UserService userService;
-    private final UserMapper userMapper;
     private final AccountConfirmationRepository confirmationRepository;
-//    private final ConfirmationService confirmationService;
+    private final SimpleMailMessage mailMessage;
     @Override
-    public void sendEmail(String userEmail) {
-        if (userService.isUserExistByEmail(userEmail)) {
-            User user = userMapper.convertToEntity(userService.findById(userEmail));
-            if (!user.isEnabled()){
-                SimpleMailMessage mailMessage = new SimpleMailMessage();
+    public void sendUserVerificationEmail(String userEmail, String subject, String message) {
 
+//                SimpleMailMessage mailMessage = new SimpleMailMessage();
 //        mailMessage.setFrom(environment.getProperty("EMAIL"));
 //        mailMessage.setFrom(System.getProperty("EMAIL"));
 
-                String token = confirmationRepository.findTokenByUserName(user.getUserName());
-                String message = "Click the link blow to Verify Your Cydeo Ticketing Account.\n\n " +
-                        "http://localhost:8080/user/verify?token=" + token + "\n\n" +
-                        "from: cydeo.ticketing@gmail.com";
-
                 mailMessage.setTo(userEmail);
-                mailMessage.setSubject("Verify Cydeo Ticketing Account");
+                mailMessage.setSubject(subject);
                 mailMessage.setText(message);
 
                 mailSender.send(mailMessage);
-
-            }
-        }
-
     }
 }
+
