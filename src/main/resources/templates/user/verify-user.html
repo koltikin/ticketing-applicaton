@@ -12,14 +12,16 @@
 
     <img th:src="@{/images/cydeo-logo.svg}" height="45" alt="Company Logo" class="logo">
 
-    <div class="pt-4">
+    <div class="pt-4" th:if="${isVerifyied}">
         <p class="confirmation-message">Your account has been successfully verified.</p>
     </div>
-
-    <div class="pt-3">
-        <a href="login.html" class="login-button">Go to Login Page</a>
+    <div class="pt-4" th:unless="${isVerifyied}">
+        <p class="confirmation-message">Invalid verify link.</p>
     </div>
 
+    <div class="pt-3"th:if="${isVerifyied}">
+        <a th:href="@{/login}" class="login-button">Go to Login Page</a>
+    </div>
 </div>
 </body>
 </html>

@@ -29,8 +29,6 @@ public class UserController {
      private final UserService userService;
      private final UserValidations userValidations;
      private final AuthSuccessHandler authSuccessHandler;
-     private final EmailService emailService;
-     @Autowired
      private final AccountConfirmationRepository confirmationRepository;
 
 
@@ -59,7 +57,7 @@ public class UserController {
         }
         userService.save(user);
         userService.saveUserConfirmation(user.getUserName());
-        emailService.sendEmail(user.getUserName());
+        userService.sendUserVerificationEmail(user.getUserName());
 
         return "redirect:/user/create";
     }

@@ -29,15 +29,17 @@ public class UserServiceImpl implements UserService {
     private final TaskService taskService;
     private final PasswordEncoder passwordEncoder;
     private final AccountConfirmationRepository confirmationRepository;
+    private final EmailServiceImpl emailService;
 
     public UserServiceImpl(UserMapper mapper, UserRepository repository, @Lazy ProjectService projectService, @Lazy TaskService taskService, PasswordEncoder passwordEncoder,
-                           AccountConfirmationRepository confirmationRepository) {
+                           AccountConfirmationRepository confirmationRepository, EmailServiceImpl emailService) {
         this.mapper = mapper;
         this.repository = repository;
         this.projectService = projectService;
         this.taskService = taskService;
         this.passwordEncoder = passwordEncoder;
         this.confirmationRepository = confirmationRepository;
+        this.emailService = emailService;
     }
 
 
@@ -50,8 +52,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findById(String userName) {
-       return mapper.convertToDto(repository.findByUserNameAndIsDeleted(userName,false));
+        return mapper.convertToDto(repository.findByUserNameAndIsDeleted(userName, false));
     }
+
     @Override
     public void save(UserDTO dto) {
 //        dto.setEnabled(true);
@@ -62,12 +65,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(UserDTO dto) {
-        User old_user = repository.findByUserNameAndIsDeleted(dto.getUserName(),false);
+        User old_user = repository.findByUserNameAndIsDeleted(dto.getUserName(), false);
         User updatedUser = mapper.convertToEntity(dto);
         updatedUser.setId(old_user.getId());
-        if (dto.getPassWord()==null){
+        if (dto.getPassWord() == null) {
             updatedUser.setPassWord(old_user.getPassWord());
-        }else {
+        } else {
             updatedUser.setPassWord(passwordEncoder.encode(dto.getPassWord()));
         }
         repository.save(updatedUser);
@@ -76,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String username) {
-        User user = repository.findByUserNameAndIsDeleted(username,false);
+        User user = repository.findByUserNameAndIsDeleted(username, false);
         if (checkIfUserCanBeDeleted(user)) {
             user.setUserName(user.getUserName() + '-' + LocalDateTime.now());
 //            if (user.getRole().getDescription().equals("Employee")){
@@ -96,7 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> findAllByRoleDetail() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = repository.findByUserNameAndIsDeleted(username,false);
+        User user = repository.findByUserNameAndIsDeleted(username, false);
         String description = user.getRole().getDescription();
         if (description.equals("Admin")) {
             return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted("Manager", false)
@@ -107,13 +110,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public List<UserDTO> findAllByRole(String description) {
-            return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false)
-                    .stream().map(mapper::convertToDto)
-                    .collect(Collectors.toList());
+        return repository.findByRole_DescriptionIgnoreCaseAndIsDeleted(description, false)
+                .stream().map(mapper::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    private boolean checkIfUserCanBeDeleted(User user){
-        switch (user.getRole().getDescription()){
+    private boolean checkIfUserCanBeDeleted(User user) {
+        switch (user.getRole().getDescription()) {
             case "Manager":
                 List<ProjectDTO> notCompletedProjects = projectService.listAllNotCompletedPrjByManager(user);
                 return notCompletedProjects.size() == 0;
@@ -121,14 +124,15 @@ public class UserServiceImpl implements UserService {
                 List<TaskDTO> notCompletedTasks = taskService.listAllNotCompletedTaskByEmployee(user);
                 return notCompletedTasks.size() == 0;
 
-            default: return true;
+            default:
+                return true;
         }
     }
 
     @Override
     public boolean isUserExist(UserDTO userDto) {
-        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
-        if (user !=null && user.getId()!=null) {
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(), false);
+        if (user != null && user.getId() != null) {
             return repository.existsByUserNameAndIsDeleted(userDto.getUserName(), false);
         }
         return false;
@@ -136,17 +140,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isUserExist(String username) {
-        return repository.existsByUserNameAndIsDeleted(username,false);
+        return repository.existsByUserNameAndIsDeleted(username, false);
     }
 
     @Override
     public Boolean isPasswordNotConfirmed(UserDTO userDto) {
-            return !userDto.getPassWord().equals(userDto.getPassWordConfirm());
+        return !userDto.getPassWord().equals(userDto.getPassWordConfirm());
     }
 
     @Override
     public Boolean isPasswordNotMatch(UserDTO userDto) {
-        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(), false);
         boolean passwordsMatch = passwordEncoder.matches(userDto.getOldPassWord(), user.getPassWord());
 
         return !passwordsMatch;
@@ -154,14 +158,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean isRoleChanged(UserDTO userDto) {
-        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(),false);
+        var user = repository.findByUserNameAndIsDeleted(userDto.getUserName(), false);
 
         return !user.getRole().getDescription().equals(userDto.getRole().getDescription());
     }
 
     @Override
     public Boolean isUserExistByEmail(String userName) {
-        return repository.existsByUserNameAndIsDeleted(userName,false);
+        return repository.existsByUserNameAndIsDeleted(userName, false);
 
     }
 
@@ -170,7 +174,7 @@ public class UserServiceImpl implements UserService {
 
         if (confirmationRepository.existsByToken(token)) {
             AccountConfirmation confirmation = confirmationRepository.findByToken(token);
-            User user = repository.findByUserNameAndIsDeleted(confirmation.getUser().getUserName(),false);
+            User user = repository.findByUserNameAndIsDeleted(confirmation.getUser().getUserName(), false);
 
             user.setEnabled(true);
             repository.save(user);
@@ -189,5 +193,23 @@ public class UserServiceImpl implements UserService {
         User user = mapper.convertToEntity(findById(userName));
         AccountConfirmation confirmation = new AccountConfirmation(user);
         confirmationRepository.save(confirmation);
+    }
+
+    @Override
+    public void sendUserVerificationEmail(String userName) {
+        if (isUserExistByEmail(userName)) {
+            User user = mapper.convertToEntity(findById(userName));
+            if (!user.isEnabled()) {
+
+                String token = confirmationRepository.findTokenByUserName(userName);
+                String subject = "Cydeo ticketing Account Verify";
+
+                String message = "Click the link blow to Verify Your Cydeo Ticketing Account.\n\n " +
+                        "http://localhost:8080/user/verify?token=" + token + "\n\n" +
+                        "from: cydeo.ticketing@gmail.com";
+
+                emailService.sendUserVerificationEmail(userName,subject,message);
+            }
+        }
     }
 }

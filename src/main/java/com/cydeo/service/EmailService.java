@@ -1,5 +1,5 @@
 package com.cydeo.service;
 
 public interface EmailService {
-    public void sendEmail(String sendTo);
+    public void sendUserVerificationEmail(String sendTo, String subject, String message);
 }
