@@ -23,7 +23,6 @@ public class EmailServiceImpl implements EmailService {
     private final UserService userService;
     private final UserMapper userMapper;
     private final AccountConfirmationRepository confirmationRepository;
-//    private final ConfirmationService confirmationService;
     @Override
     public void sendEmail(String userEmail) {
         if (userService.isUserExistByEmail(userEmail)) {

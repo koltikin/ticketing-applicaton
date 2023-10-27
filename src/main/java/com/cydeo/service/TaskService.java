@@ -5,8 +5,6 @@ import com.cydeo.dto.TaskDTO;
 import com.cydeo.entity.Project;
 import com.cydeo.entity.Task;
 import com.cydeo.entity.User;
-import com.cydeo.enums.Status;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
