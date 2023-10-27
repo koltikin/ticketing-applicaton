@@ -23,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
     private final AccountConfirmationRepository confirmationRepository;
     private final SimpleMailMessage mailMessage;
     @Override
-    public void sendUserVerificationEmail(String userEmail, String subject, String message) {
+    public void sendSimpleMessage(String userEmail, String subject, String message) {
 
 //                SimpleMailMessage mailMessage = new SimpleMailMessage();
 //        mailMessage.setFrom(environment.getProperty("EMAIL"));

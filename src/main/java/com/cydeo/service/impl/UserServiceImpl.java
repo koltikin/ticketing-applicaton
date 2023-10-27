@@ -1,12 +1,14 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.Repository.AccountConfirmationRepository;
+import com.cydeo.Repository.UserPassWordResetRepository;
 import com.cydeo.Repository.UserRepository;
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.entity.User;
+import com.cydeo.entity.UserResetPassWord;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
@@ -30,9 +32,10 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final AccountConfirmationRepository confirmationRepository;
     private final EmailServiceImpl emailService;
+    private final UserPassWordResetRepository passWordResetRepository;
 
     public UserServiceImpl(UserMapper mapper, UserRepository repository, @Lazy ProjectService projectService, @Lazy TaskService taskService, PasswordEncoder passwordEncoder,
-                           AccountConfirmationRepository confirmationRepository, EmailServiceImpl emailService) {
+                           AccountConfirmationRepository confirmationRepository, EmailServiceImpl emailService, UserPassWordResetRepository passWordResetRepository) {
         this.mapper = mapper;
         this.repository = repository;
         this.projectService = projectService;
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
         this.confirmationRepository = confirmationRepository;
         this.emailService = emailService;
+        this.passWordResetRepository = passWordResetRepository;
     }
 
 
@@ -208,8 +212,37 @@ public class UserServiceImpl implements UserService {
                         "http://localhost:8080/user/verify?token=" + token + "\n\n" +
                         "from: cydeo.ticketing@gmail.com";
 
-                emailService.sendUserVerificationEmail(userName,subject,message);
+                emailService.sendSimpleMessage(userName,subject,message);
             }
         }
+    }
+
+    @Override
+    public void sendUserPassWordResetLink(String email) {
+        User user = repository.findByUserNameAndIsDeleted(email,false);
+
+        UserResetPassWord resetPassWord = new UserResetPassWord(user);
+        passWordResetRepository.save(resetPassWord);
+
+        String token = resetPassWord.getToken();
+
+        String subject = "Cydeo Ticketing Account Pass Word Rest";
+        String message = "You recently requested to change your password.\n" +
+                "\n" +
+                "If it wasn't you, please disregard this email and make sure you can still login to your account." +
+                " If it was you, then confirm the password change by clicking the button below.\n\n" +
+                "http://localhost:8080/user/change-password?token="+token+"\n\n" +
+                "If you are having any issues with your account, please don’t hesitate to contact us using\n\ncydeo.ticketing@gmail.com.\n" +
+                "\n" +
+                "\n" +
+                "Thanks!\n" +
+                "CYDEO Team\n";
+
+        emailService.sendSimpleMessage(email,subject,message);
+    }
+
+    @Override
+    public Boolean validateRestPassWord(String token) {
+        return passWordResetRepository.existsByToken(token);
     }
 }
