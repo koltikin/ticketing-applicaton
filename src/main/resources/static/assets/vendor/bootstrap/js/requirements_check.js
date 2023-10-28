@@ -3,7 +3,12 @@ const passwordField = document.getElementById("new_password");
 
 const passwordRequirements = document.getElementById("password-requirements");
 
+if (passwordField.value) {
+    checkPasswordRequirements();
+}
+
 passwordField.addEventListener("input", checkPasswordRequirements);
+
 
 function checkPasswordRequirements() {
 

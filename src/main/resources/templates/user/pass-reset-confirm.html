@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/bootstrap/css/user_verify.css}"/>
+  <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}"/>
+  <title>Cydeo verify account</title>
+</head>
+<body>
+<div class="user-verify-container p-5">
+
+  <img th:if="${isVerifyied}" th:src="@{/images/cydeo-logo.svg}" height="45" alt="Company Logo" class="logo">
+  <img th:unless="${isVerifyied}" th:src="@{/images/invalid_link.svg}" height="60" alt="invalid link" class="logo">
+
+  <div class="pt-4" th:if="${isVerifyied}">
+    <p class="confirmation-message">Your account has been successfully verified.</p>
+  </div>
+  <div class="pt-4" th:unless="${isVerifyied}">
+    <p class="confirmation-message">Invalid verify link.</p>
+  </div>
+
+  <div class="pt-3"th:if="${isVerifyied}">
+    <a th:href="@{/login}" class="login-button">Go to Login Page</a>
+  </div>
+</div>
+</body>
+</html>

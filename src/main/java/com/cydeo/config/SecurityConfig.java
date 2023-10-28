@@ -66,6 +66,7 @@ public class SecurityConfig {
                         "/user/change-password",
                         "/user/verify",
                         "/user/verify-user",
+                        "/user/reset-password-confirmation",
                         "/fragments/**",
                         "/assets/**",
                         "/images/**"

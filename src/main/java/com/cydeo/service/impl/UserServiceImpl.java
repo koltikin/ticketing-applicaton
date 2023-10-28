@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -244,5 +246,38 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean validateRestPassWord(String token) {
         return passWordResetRepository.existsByToken(token);
+    }
+
+    @Override
+    public Boolean isMetRequirement(String password) {
+            // Define regular expressions for each requirement
+            String lengthRegex = ".{8,}";
+            String lowercaseRegex = "[a-z]";
+            String uppercaseRegex = "[A-Z]";
+            String numberRegex = "[0-9]";
+            String specialCharRegex = "[\\W_]";
+
+            // Compile regular expressions
+            Pattern lengthPattern = Pattern.compile(lengthRegex);
+            Pattern lowercasePattern = Pattern.compile(lowercaseRegex);
+            Pattern uppercasePattern = Pattern.compile(uppercaseRegex);
+            Pattern numberPattern = Pattern.compile(numberRegex);
+            Pattern specialCharPattern = Pattern.compile(specialCharRegex);
+
+            // Match each requirement against the password
+            Matcher lengthMatcher = lengthPattern.matcher(password);
+            Matcher lowercaseMatcher = lowercasePattern.matcher(password);
+            Matcher uppercaseMatcher = uppercasePattern.matcher(password);
+            Matcher numberMatcher = numberPattern.matcher(password);
+            Matcher specialCharMatcher = specialCharPattern.matcher(password);
+
+            // Check if the password meets the requirements
+            return lengthMatcher.find() &&
+                    (lowercaseMatcher.find() || uppercaseMatcher.find() || numberMatcher.find() || specialCharMatcher.find()) &&
+                    (lowercaseMatcher.find() ? 1 : 0) +
+                            (uppercaseMatcher.find() ? 1 : 0) +
+                            (numberMatcher.find() ? 1 : 0) +
+                            (specialCharMatcher.find() ? 1 : 0) >= 3;
+
     }
 }

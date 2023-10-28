@@ -153,13 +153,26 @@ public class UserController {
         return "redirect:/user/reset-password?error=true&invalid=true&email="+email;
     }
 
-    @GetMapping("/change-password")
-    public String userPassWordReset(@RequestParam("token") String token, Model model){
 
-        Boolean isResetable = userService.validateRestPassWord(token);
-        model.addAttribute("isResetable", isResetable);
+    @PostMapping("/reset-password-confirmation")
+    public String userPassWordResetConfirm(@RequestParam("new_password") String password,
+                                           @RequestParam("re-password") String rePassword,
+                                           @RequestParam("token")String token, Model model){
+        System.out.println(password);
+        System.out.println(rePassword);
+        System.out.println(token);
 
-        return "/user/change-password";
+        Boolean isMetRequirements = userService.isMetRequirement(password);
+        Boolean isMatch = password.equals(rePassword);
+        if (isMetRequirements){
+            if (isMatch){
+//                userService.resetPassWord(token, password,rePassword);
+                return "/user/reset-password-confirmation";
+            }
+            return "redirect:/user/change-password?error=true&isMatch=false&new_password="+password+"&token="+token;
+        }
+        return "redirect:/user/change-password?error=true&new_password="+password+"&re_password="+rePassword+"&token="+token;
     }
+
 
 }
