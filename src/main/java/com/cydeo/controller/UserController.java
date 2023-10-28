@@ -60,9 +60,9 @@ public class UserController {
 
     @GetMapping("/verify")
     public String userVerify(@RequestParam("token") String token, Model model){
-        Boolean isVerifyied = userService.verifyUserAccount(token);
-        model.addAttribute("isVerifyied", isVerifyied);
-        return "/user/verify-user";
+            Boolean isVerifyied = userService.verifyUserAccount(token);
+            model.addAttribute("isVerifyied", isVerifyied);
+            return "/user/verify-user";
     }
 
     @PreAuthorize("hasAuthority('Admin')")
@@ -144,9 +144,14 @@ public class UserController {
         if ((email.substring(1,email.length()-1)).contains("@")){
             Boolean isUserExist = userService.isUserExist(email);
             if (isUserExist) {
-                userService.sendUserPassWordResetLink(email);
-                model.addAttribute("email",email);
-                return "/user/email-sent";
+                Boolean isUserActive = userService.isUserActive(email);
+                if (isUserActive) {
+                    userService.sendUserPassWordResetLink(email);
+                    model.addAttribute("email", email);
+                    return "/user/email-sent";
+                }
+                model.addAttribute("email", email);
+                return "/user/inactive-user";
             }
             return "redirect:/user/reset-password?error=true&exist="+isUserExist+"&email="+email;
         }

@@ -28,4 +28,6 @@ public interface UserService extends CrudService<UserDTO,String>{
     void resetPassWord(String token, String new_password);
     Boolean isPasswordTokenValid(String token);
 
+    Boolean isUserActive(String username);
+
 }

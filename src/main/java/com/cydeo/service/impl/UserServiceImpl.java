@@ -74,11 +74,14 @@ public class UserServiceImpl implements UserService {
         User old_user = repository.findByUserNameAndIsDeleted(dto.getUserName(), false);
         User updatedUser = mapper.convertToEntity(dto);
         updatedUser.setId(old_user.getId());
+
         if (dto.getPassWord() == null) {
             updatedUser.setPassWord(old_user.getPassWord());
         } else {
             updatedUser.setPassWord(passwordEncoder.encode(dto.getPassWord()));
+            updatedUser.setEnabled(true);
         }
+
         repository.save(updatedUser);
 
     }
@@ -296,5 +299,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean isPasswordTokenValid(String token) {
         return passWordResetRepository.existsByToken(token);
+    }
+
+    @Override
+    public Boolean isUserActive(String username) {
+        return repository.findByUserNameAndIsDeleted(username,false).isEnabled();
     }
 }
