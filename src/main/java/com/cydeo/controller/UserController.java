@@ -153,6 +153,13 @@ public class UserController {
         return "redirect:/user/reset-password?error=true&invalid=true&email="+email;
     }
 
+    @GetMapping("/change-password")
+    public String userChangePassWord(@RequestParam("token") String token){
+        if (userService.isPasswordTokenValid(token)) {
+            return "/user/change-password";
+        }
+        return "/user/change-password-invalid";
+    }
 
     @PostMapping("/reset-password-confirmation")
     public String userPassWordResetConfirm(@RequestParam("new_password") String password,

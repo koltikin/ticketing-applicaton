@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@Where(clause = "is_deleted=false")
+@Where(clause = "is_deleted = false")
 public class UserResetPassWord {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

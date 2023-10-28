@@ -286,7 +286,15 @@ public class UserServiceImpl implements UserService {
             user.setLastUpdateUserId(user.getId());
             user.setLastUpdateDateTime(LocalDateTime.now());
             repository.save(user);
+            userResetPassWord.setDeleted(true);
+            passWordResetRepository.save(userResetPassWord);
         }
         userResetPassWord.setDeleted(true);
+        passWordResetRepository.save(userResetPassWord);
+    }
+
+    @Override
+    public Boolean isPasswordTokenValid(String token) {
+        return passWordResetRepository.existsByToken(token);
     }
 }
