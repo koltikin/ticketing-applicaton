@@ -4,6 +4,7 @@ import com.cydeo.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
+@Where(clause = "is_deleted=false")
 public class UserResetPassWord {
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)

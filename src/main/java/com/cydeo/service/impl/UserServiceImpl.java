@@ -244,11 +244,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean validateRestPassWord(String token) {
-        return passWordResetRepository.existsByToken(token);
-    }
-
-    @Override
     public Boolean isMetRequirement(String password) {
             // Define regular expressions for each requirement
             String lengthRegex = ".{8,}";
@@ -279,5 +274,19 @@ public class UserServiceImpl implements UserService {
                             (numberMatcher.find() ? 1 : 0) +
                             (specialCharMatcher.find() ? 1 : 0) >= 3;
 
+    }
+
+    @Override
+    public void resetPassWord(String token, String new_password) {
+        UserResetPassWord userResetPassWord = passWordResetRepository.findByToken(token);
+        String userName = userResetPassWord.getUser().getUserName();
+        User user = repository.findByUserNameAndIsDeleted(userName,false);
+        if (user!=null){
+            user.setPassWord(passwordEncoder.encode(new_password));
+            user.setLastUpdateUserId(user.getId());
+            user.setLastUpdateDateTime(LocalDateTime.now());
+            repository.save(user);
+        }
+        userResetPassWord.setDeleted(true);
     }
 }

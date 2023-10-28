@@ -158,16 +158,13 @@ public class UserController {
     public String userPassWordResetConfirm(@RequestParam("new_password") String password,
                                            @RequestParam("re-password") String rePassword,
                                            @RequestParam("token")String token, Model model){
-        System.out.println(password);
-        System.out.println(rePassword);
-        System.out.println(token);
 
         Boolean isMetRequirements = userService.isMetRequirement(password);
         Boolean isMatch = password.equals(rePassword);
         if (isMetRequirements){
             if (isMatch){
-//                userService.resetPassWord(token, password,rePassword);
-                return "/user/reset-password-confirmation";
+                userService.resetPassWord(token, password);
+                return "/user/pass-reset-confirm";
             }
             return "redirect:/user/change-password?error=true&isMatch=false&new_password="+password+"&token="+token;
         }
