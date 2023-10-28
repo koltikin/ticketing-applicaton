@@ -201,3 +201,49 @@ input:valid ~ label{
   padding: 14px 14px;
 
 }
+
+/* password-requirements.css */
+.password-requirements {
+  margin-top: 10px;
+}
+
+.password-requirements p {
+  font-weight: normal;
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 14px;
+  padding-left: 15px;
+}
+
+.password-requirements p.met {
+  padding-left: 15px;
+  color: green;
+}
+.password-requirements p.not-met {
+  padding-left: 15px;
+  color: red;
+}
+.password-requirements p.met:before {
+  content: "✓";
+  color: green;
+}
+.password-requirements p.not-met:before {
+  content: "✗";
+}
+
+
+.password-requirements p.met-3 {
+  padding-left: 25px;
+  color: green;
+}
+.password-requirements p.not-met-3 {
+  padding-left: 25px;
+  color: red;
+}
+.password-requirements p.met-3:before {
+  content: "✓";
+  color: green;
+}
+.password-requirements p.not-met-3:before {
+  content: "✗";
+}
