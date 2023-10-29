@@ -60,9 +60,9 @@ public class UserController {
 
     @GetMapping("/verify")
     public String userVerify(@RequestParam("token") String token, Model model){
-        Boolean isVerifyied = userService.verifyUserAccount(token);
-        model.addAttribute("isVerifyied", isVerifyied);
-        return "/user/verify-user";
+            Boolean isVerifyied = userService.verifyUserAccount(token);
+            model.addAttribute("isVerifyied", isVerifyied);
+            return "/user/verify-user";
     }
 
     @PreAuthorize("hasAuthority('Admin')")
@@ -144,9 +144,14 @@ public class UserController {
         if ((email.substring(1,email.length()-1)).contains("@")){
             Boolean isUserExist = userService.isUserExist(email);
             if (isUserExist) {
-                userService.sendUserPassWordResetLink(email);
-                model.addAttribute("email",email);
-                return "/user/email-sent";
+                Boolean isUserActive = userService.isUserActive(email);
+                if (isUserActive) {
+                    userService.sendUserPassWordResetLink(email);
+                    model.addAttribute("email", email);
+                    return "/user/email-sent";
+                }
+                model.addAttribute("email", email);
+                return "/user/inactive-user";
             }
             return "redirect:/user/reset-password?error=true&exist="+isUserExist+"&email="+email;
         }
@@ -154,12 +159,29 @@ public class UserController {
     }
 
     @GetMapping("/change-password")
-    public String userPassWordReset(@RequestParam("token") String token, Model model){
-
-        Boolean isResetable = userService.validateRestPassWord(token);
-        model.addAttribute("isResetable", isResetable);
-
-        return "/user/change-password";
+    public String userChangePassWord(@RequestParam("token") String token){
+        if (userService.isPasswordTokenValid(token)) {
+            return "/user/change-password";
+        }
+        return "/user/change-password-invalid";
     }
+
+    @PostMapping("/reset-password-confirmation")
+    public String userPassWordResetConfirm(@RequestParam("new_password") String password,
+                                           @RequestParam("re-password") String rePassword,
+                                           @RequestParam("token")String token, Model model){
+
+        Boolean isMetRequirements = userService.isMetRequirement(password);
+        Boolean isMatch = password.equals(rePassword);
+        if (isMetRequirements){
+            if (isMatch){
+                userService.resetPassWord(token, password);
+                return "/user/pass-reset-confirm";
+            }
+            return "redirect:/user/change-password?error=true&isMatch=false&new_password="+password+"&token="+token;
+        }
+        return "redirect:/user/change-password?error=true&new_password="+password+"&re_password="+rePassword+"&token="+token;
+    }
+
 
 }

@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -72,11 +74,14 @@ public class UserServiceImpl implements UserService {
         User old_user = repository.findByUserNameAndIsDeleted(dto.getUserName(), false);
         User updatedUser = mapper.convertToEntity(dto);
         updatedUser.setId(old_user.getId());
+
         if (dto.getPassWord() == null) {
             updatedUser.setPassWord(old_user.getPassWord());
         } else {
             updatedUser.setPassWord(passwordEncoder.encode(dto.getPassWord()));
+            updatedUser.setEnabled(true);
         }
+
         repository.save(updatedUser);
 
     }
@@ -242,7 +247,62 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean validateRestPassWord(String token) {
+    public Boolean isMetRequirement(String password) {
+            // Define regular expressions for each requirement
+            String lengthRegex = ".{8,}";
+            String lowercaseRegex = "[a-z]";
+            String uppercaseRegex = "[A-Z]";
+            String numberRegex = "[0-9]";
+            String specialCharRegex = "[\\W_]";
+
+            // Compile regular expressions
+            Pattern lengthPattern = Pattern.compile(lengthRegex);
+            Pattern lowercasePattern = Pattern.compile(lowercaseRegex);
+            Pattern uppercasePattern = Pattern.compile(uppercaseRegex);
+            Pattern numberPattern = Pattern.compile(numberRegex);
+            Pattern specialCharPattern = Pattern.compile(specialCharRegex);
+
+            // Match each requirement against the password
+            Matcher lengthMatcher = lengthPattern.matcher(password);
+            Matcher lowercaseMatcher = lowercasePattern.matcher(password);
+            Matcher uppercaseMatcher = uppercasePattern.matcher(password);
+            Matcher numberMatcher = numberPattern.matcher(password);
+            Matcher specialCharMatcher = specialCharPattern.matcher(password);
+
+            // Check if the password meets the requirements
+            return lengthMatcher.find() &&
+                    (lowercaseMatcher.find() || uppercaseMatcher.find() || numberMatcher.find() || specialCharMatcher.find()) &&
+                    (lowercaseMatcher.find() ? 1 : 0) +
+                            (uppercaseMatcher.find() ? 1 : 0) +
+                            (numberMatcher.find() ? 1 : 0) +
+                            (specialCharMatcher.find() ? 1 : 0) >= 3;
+
+    }
+
+    @Override
+    public void resetPassWord(String token, String new_password) {
+        UserResetPassWord userResetPassWord = passWordResetRepository.findByToken(token);
+        String userName = userResetPassWord.getUser().getUserName();
+        User user = repository.findByUserNameAndIsDeleted(userName,false);
+        if (user!=null){
+            user.setPassWord(passwordEncoder.encode(new_password));
+            user.setLastUpdateUserId(user.getId());
+            user.setLastUpdateDateTime(LocalDateTime.now());
+            repository.save(user);
+            userResetPassWord.setDeleted(true);
+            passWordResetRepository.save(userResetPassWord);
+        }
+        userResetPassWord.setDeleted(true);
+        passWordResetRepository.save(userResetPassWord);
+    }
+
+    @Override
+    public Boolean isPasswordTokenValid(String token) {
         return passWordResetRepository.existsByToken(token);
+    }
+
+    @Override
+    public Boolean isUserActive(String username) {
+        return repository.findByUserNameAndIsDeleted(username,false).isEnabled();
     }
 }

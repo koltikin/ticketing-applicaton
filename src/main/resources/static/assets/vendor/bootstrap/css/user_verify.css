@@ -37,16 +37,16 @@ body {
 
 /* Style the login button */
 .login-button {
-    background-color: #007bff;
+    background-color: #34a9ff;
     color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 15px 50px;
+    border-radius: 30px;
     font-weight: bold;
     transition: background-color 0.3s;
 }
 
 .login-button:hover {
-    background-color: #0056b3;
+    background-color: #0271fa;
     text-decoration: none;
     color: #fff;
 }

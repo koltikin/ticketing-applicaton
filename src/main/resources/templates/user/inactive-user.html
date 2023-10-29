@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/bootstrap/css/user_verify.css}"/>
+  <link rel="stylesheet" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}"/>
+  <title>Cydeo reset Password</title>
+</head>
+<body>
+<div class="user-verify-container p-5">
+
+  <img th:src="@{/images/inactiveuser.svg}" height="80" alt="inactive user" class="logo">
+
+  <div class="pt-3">
+    <p class="confirmation-message">Inactive User!</p>
+  </div>
+  <div class="pt-3">
+    <p class="confirmation-message" th:text="'The user with ' + ${email} + ' is inactive,'
+                                    +' please check your in box for the user verify link to activate your account. '"></p>
+  </div>
+
+  <div class="pt-3">
+    <a href="https://mail.google.com" class="login-button">Go to Your Email</a>
+  </div>
+</div>
+</body>
+</html>

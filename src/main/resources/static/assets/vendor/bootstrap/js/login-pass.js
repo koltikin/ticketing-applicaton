@@ -13,3 +13,4 @@
             passwordToggleIcon.classList.add('fa-eye-slash');
         }
     });
+
