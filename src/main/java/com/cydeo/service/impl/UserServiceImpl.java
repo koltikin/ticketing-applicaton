@@ -10,10 +10,12 @@ import com.cydeo.entity.AccountConfirmation;
 import com.cydeo.entity.User;
 import com.cydeo.entity.UserResetPassWord;
 import com.cydeo.mapper.UserMapper;
+import com.cydeo.service.EmailService;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
     private final TaskService taskService;
     private final PasswordEncoder passwordEncoder;
     private final AccountConfirmationRepository confirmationRepository;
-    private final EmailServiceImpl emailService;
+    private final EmailService emailService;
     private final UserPassWordResetRepository passWordResetRepository;
 
     public UserServiceImpl(UserMapper mapper, UserRepository repository, @Lazy ProjectService projectService, @Lazy TaskService taskService, PasswordEncoder passwordEncoder,

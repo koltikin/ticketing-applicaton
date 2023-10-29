@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 
@@ -20,9 +22,9 @@ import org.springframework.stereotype.Service;
 public class EmailServiceImpl implements EmailService {
     private final Environment environment;
     private final JavaMailSender mailSender;
-    private final AccountConfirmationRepository confirmationRepository;
     private final SimpleMailMessage mailMessage;
     @Override
+    @Async
     public void sendSimpleMessage(String userEmail, String subject, String message) {
 
 //                SimpleMailMessage mailMessage = new SimpleMailMessage();
@@ -34,6 +36,12 @@ public class EmailServiceImpl implements EmailService {
                 mailMessage.setText(message);
 
                 mailSender.send(mailMessage);
+    }
+
+    @Override
+    @Async
+    public void sendMessageWithAttachment(String sendTo, String subject, String message) {
+
     }
 }
 
