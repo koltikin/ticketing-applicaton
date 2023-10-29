@@ -15,10 +15,10 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -227,9 +227,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void sendUserPassWordResetLink(String email) {
         User user = repository.findByUserNameAndIsDeleted(email,false);
-
-        UserResetPassWord resetPassWord = new UserResetPassWord(user);
-        passWordResetRepository.save(resetPassWord);
+        UserResetPassWord resetPassWord;
+        Boolean isLinkExist = passWordResetRepository.existsByUser_UserName(email);
+        if (isLinkExist){
+            resetPassWord = passWordResetRepository.findTopByUser_UserName(email);
+        }else {
+            resetPassWord = new UserResetPassWord(user);
+            passWordResetRepository.save(resetPassWord);
+        }
 
         String token = resetPassWord.getToken();
 

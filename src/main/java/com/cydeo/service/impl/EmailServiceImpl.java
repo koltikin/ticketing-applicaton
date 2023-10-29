@@ -1,19 +1,11 @@
 package com.cydeo.service.impl;
 
-import com.cydeo.Repository.AccountConfirmationRepository;
-import com.cydeo.dto.UserDTO;
-import com.cydeo.entity.AccountConfirmation;
-import com.cydeo.entity.User;
-import com.cydeo.mapper.UserMapper;
-//import com.cydeo.service.ConfirmationService;
 import com.cydeo.service.EmailService;
-import com.cydeo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 
