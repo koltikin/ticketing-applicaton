@@ -20,7 +20,10 @@
                 <div class="form-group custom-input-field pt-2">
                     <p>Check Your Email</p>
                     <div class="custom-input-field text-center pb-3">
-                        <span th:text="'Please check the email address ' + ${email} + ' for instructions to reset your password.'"></span>
+                        <span th:text="'Please check the email address '"></span>
+                        <a th:text="${email}" href="https://mail.google.com/" style="color: blue; text-decoration: none;"></a>
+                        <span th:text=" ' for instructions to reset your password.'"></span>
+
                     </div>
                 </div>
             </div>
