@@ -9,11 +9,23 @@ This is a fully functional web application designed with Spring Boot.
 
 used postgres for database, used thymeleaf as templete engin......
 
+### To make the app work, the only thing you need to change the database configuration and email configuration:
+![DB configration](https://github.com/koltikin/ticketing-applicaton/assets/56764495/9196a64f-868d-4d93-9104-e4b84083efc5)
+
+
+
+![email config](https://github.com/koltikin/ticketing-applicaton/assets/56764495/a1837129-d758-411f-bfc2-7bd1c79c95fa)
+
+
 
 #### Login,            Password reset,              Email send pages.
 
 
 ![login](https://github.com/koltikin/ticketing-applicaton/assets/56764495/771dcbf1-d1e7-43ac-9b7e-5701c8229368)
+
+#### Verify Account Email
+![verify user](https://github.com/koltikin/ticketing-applicaton/assets/56764495/f067b469-608f-4705-9a85-98923903d159)
+
 
 
 #### Admin Role Login
