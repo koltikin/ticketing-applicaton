@@ -18,9 +18,10 @@
     </div>
     <div class="pt-4" th:unless="${isVerifyied}">
         <p class="confirmation-message">Invalid verify link.</p>
+        Your account has been verified.
     </div>
 
-    <div class="pt-3"th:if="${isVerifyied}">
+    <div class="pt-3" th:if="${isVerifyied}">
         <a th:href="@{/login}" class="login-button">Go to Login Page</a>
     </div>
 </div>

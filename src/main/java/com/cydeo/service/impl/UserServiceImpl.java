@@ -251,6 +251,7 @@ public class UserServiceImpl implements UserService {
                 "CYDEO Team\n";
 
         emailService.sendSimpleMessage(email,subject,message);
+        emailService.sendMessageWithAttachment(email,subject,message);
     }
 
     @Override
