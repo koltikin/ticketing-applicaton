@@ -219,7 +219,13 @@ public class UserServiceImpl implements UserService {
                         "http://localhost:8080/user/verify?token=" + token + "\n\n" +
                         "from: cydeo.ticketing@gmail.com";
 
-                emailService.sendSimpleMessage(userName,subject,message);
+                String messageTitle = "Your account on Cydeo ticketing is created.";
+                String messageBody = "If it wasn't you, please disregard this email, If it was you, then click the link blow to Verify Your Cydeo ticketing Account. ";
+                String buttonUrl = "http://localhost:8080/user/verify?token=" + token;
+                String buttonText = "Verify Account";
+
+//                emailService.sendSimpleMessage(userName,subject,message);
+                emailService.sendHtmlMessageWithImage(userName, subject, messageTitle, messageBody, buttonUrl, buttonText);
             }
         }
     }
@@ -238,7 +244,7 @@ public class UserServiceImpl implements UserService {
 
         String token = resetPassWord.getToken();
 
-        String subject = "Cydeo Ticketing Account Pass Word Rest";
+        String subject = "Cydeo Ticketing Account PassWord Rest";
         String message = "You recently requested to change your password.\n" +
                 "\n" +
                 "If it wasn't you, please disregard this email and make sure you can still login to your account." +
@@ -252,10 +258,11 @@ public class UserServiceImpl implements UserService {
         String title = "You recently requested to change your password.";
         String body = "If it wasn't you, please disregard this email and make sure you can still login to your account. If it was you, then confirm the password change by clicking the button below.";
         String url = "http://localhost:8080/user/change-password?token="+token;
+        String buttonText = "Reset Password";
 
 //        emailService.sendSimpleMessage(email,subject,message);
 //        emailService.sendMessageWithAttachment(email,subject,message);
-        emailService.sendHtmlMessageWithImage(email,subject,title,body,url);
+        emailService.sendHtmlMessageWithImage(email,subject,title,body,url,buttonText);
     }
 
     @Override

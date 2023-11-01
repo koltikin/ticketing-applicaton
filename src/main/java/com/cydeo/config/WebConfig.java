@@ -48,24 +48,4 @@ public class WebConfig implements WebMvcConfigurer {
         return new SimpleMailMessage();
     }
 
-    @Bean
-    public MimeMessage getMimeMessage(){
-       return mailSender.createMimeMessage();
-    }
-
-    @Bean
-    public Multipart getMultipart(){
-        return new MimeMultipart("related");
-    }
-    @Bean
-    public Context getContext(){
-        return new Context();
-
-    }
-
-    @SneakyThrows
-    @Bean
-    public MimeMessageHelper getHelper(){
-        return new MimeMessageHelper(getMimeMessage(),true,"UTF-8");
-    }
 }

@@ -65,9 +65,9 @@
 <body style="text-align: center;">
 <div class="container" style="text-align: center;">
 <img src="cid:logo">
-  <p th:text="${messageTitle}">You recently requested to change your password.</p>
-    <p th:text="${messageBody}">If it wasn't you, please disregard this email and make sure you can still login to your account. If it was you, then confirm the password change by clicking the button below.</p>
-  <a th:href="${url}" style="color: white" class="btn">Reset Password</a>
+  <p th:text="${messageTitle}"></p>
+    <p th:text="${messageBody}"></p>
+  <a th:href="${url}" style="color: white" class="btn" th:text="${buttonText}"></a>
   <p>If you are having any issues with your account, please don't hesitate to contact us using</p>
   <a href="mailto:cydeo.ticketing@gmail.com">cydeo.ticketing@gmail.com</a>
   <h4>Thanks!</h4>

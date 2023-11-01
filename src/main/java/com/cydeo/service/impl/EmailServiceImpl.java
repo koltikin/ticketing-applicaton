@@ -20,6 +20,7 @@ import javax.mail.BodyPart;
 import javax.mail.Multipart;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.util.Map;
 
 
@@ -31,11 +32,6 @@ public class EmailServiceImpl implements EmailService {
     private final JavaMailSender mailSender;
     private final SimpleMailMessage mailMessage;
     private final TemplateEngine templateEngine;
-    private final MimeMessageHelper helper;
-    private final Context context;
-    private final BodyPart bodyPart;
-    private final Multipart multipart;
-    private final MimeMessage mimeMessage;
     @Override
     @Async
     public void sendSimpleMessage(String userEmail, String subject, String message) {
@@ -81,13 +77,15 @@ public class EmailServiceImpl implements EmailService {
     @SneakyThrows
     @Async
     @Override
-    public void sendHtmlMessageWithImage(String sendTo, String subject, String title, String body, String url ) {
+    public void sendHtmlMessageWithImage(String sendTo, String subject, String title, String body, String url, String buttonText) {
 
 //        context.setVariable("messageTitle", title);
 //        context.setVariable("messageBody", body);
 //        context.setVariable("url", url);
-//        MimeMessage mimeMessage = mailSender.createMimeMessage();
 //        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
+
+          MimeMessage mimeMessage = mailSender.createMimeMessage();
+          MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
 
         helper.setPriority(1);
         helper.setTo(sendTo);
@@ -95,15 +93,15 @@ public class EmailServiceImpl implements EmailService {
 
         /** before add message to mimeMessage add logo to the html template */
 
-//        Context context = new Context();
-        context.setVariables(Map.of("messageTitle",title,"messageBody",body,"url", url));
+        Context context = new Context();
+        context.setVariables(Map.of("messageTitle",title,"messageBody",body,"url", url,"buttonText",buttonText));
 
         String message = templateEngine.process("/email/emailTemplate",context);
 
         BodyPart bodyPartContent = new MimeBodyPart();
         bodyPartContent.setContent(message,"text/html");
 
-//        Multipart multipart = new MimeMultipart("related");
+        Multipart multipart = new MimeMultipart("related");
         multipart.addBodyPart(bodyPartContent);
 
         BodyPart bodyPartImg = new MimeBodyPart();
