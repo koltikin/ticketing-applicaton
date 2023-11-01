@@ -12,8 +12,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.thymeleaf.context.Context;
 
+import javax.mail.BodyPart;
+import javax.mail.Multipart;
+import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 @Configuration
 @RequiredArgsConstructor
@@ -48,9 +53,19 @@ public class WebConfig implements WebMvcConfigurer {
        return mailSender.createMimeMessage();
     }
 
-//    @SneakyThrows
-//    @Bean
-//    public MimeMessageHelper getHelper(){
-//        return new MimeMessageHelper(getMimeMessage(),true,"UTF_8");
-//    }
+    @Bean
+    public Multipart getMultipart(){
+        return new MimeMultipart("related");
+    }
+    @Bean
+    public Context getContext(){
+        return new Context();
+
+    }
+
+    @SneakyThrows
+    @Bean
+    public MimeMessageHelper getHelper(){
+        return new MimeMessageHelper(getMimeMessage(),true,"UTF-8");
+    }
 }

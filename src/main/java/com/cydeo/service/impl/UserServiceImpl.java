@@ -249,9 +249,13 @@ public class UserServiceImpl implements UserService {
                 "\n" +
                 "Thanks!\n" +
                 "CYDEO Team\n";
+        String title = "You recently requested to change your password.";
+        String body = "If it wasn't you, please disregard this email and make sure you can still login to your account. If it was you, then confirm the password change by clicking the button below.";
+        String url = "http://localhost:8080/user/change-password?token="+token;
 
-        emailService.sendSimpleMessage(email,subject,message);
-        emailService.sendMessageWithAttachment(email,subject,message);
+//        emailService.sendSimpleMessage(email,subject,message);
+//        emailService.sendMessageWithAttachment(email,subject,message);
+        emailService.sendHtmlMessageWithImage(email,subject,title,body,url);
     }
 
     @Override
