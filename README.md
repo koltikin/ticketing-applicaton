@@ -5,7 +5,7 @@ This is a fully functional web application designed with Spring Boot.
 2. Projects create, update, delete, and complete functionality.
 3. Create, update, delete, and change task status functionality.
 4. Verify user, reset password (if the user forgot the password) functionality with JavaMailSender.
-5. Authentication and authorization functionality with SpringSecurity used Postgres for database, used thyme leaf as template engin.
+5. Authentication and authorization functionality with SpringSecurity.
 
 used postgres for database, used thymeleaf as templete engin......
 
