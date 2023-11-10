@@ -14,6 +14,7 @@ import com.cydeo.service.EmailService;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,8 @@ import java.util.stream.Collectors;
 @Service
 //@AllArgsConstructor
 public class UserServiceImpl implements UserService {
+    @Value("${server.port}")
+    private String service_port;
     private final UserMapper mapper;
     private final UserRepository repository;
     private final ProjectService projectService;
@@ -216,12 +219,12 @@ public class UserServiceImpl implements UserService {
                 String subject = "Cydeo ticketing Account Verify";
 
                 String message = "Click the link blow to Verify Your Cydeo Ticketing Account.\n\n " +
-                        "http://localhost:8080/user/verify?token=" + token + "\n\n" +
+                        "http://localhost:"+service_port+"/user/verify?token=" + token + "\n\n" +
                         "from: cydeo.ticketing@gmail.com";
 
                 String messageTitle = "Your account on Cydeo ticketing is created.";
                 String messageBody = "If it wasn't you, please disregard this email, If it was you, then click the link blow to Verify Your Cydeo ticketing Account. ";
-                String buttonUrl = "http://localhost:8080/user/verify?token=" + token;
+                String buttonUrl = "http://localhost:"+service_port+"/user/verify?token=" + token;
                 String buttonText = "Verify Account";
 
 //                emailService.sendSimpleMessage(userName,subject,message);
@@ -249,7 +252,7 @@ public class UserServiceImpl implements UserService {
                 "\n" +
                 "If it wasn't you, please disregard this email and make sure you can still login to your account." +
                 " If it was you, then confirm the password change by clicking the button below.\n\n" +
-                "http://localhost:8080/user/change-password?token="+token+"\n\n" +
+                "http://localhost:"+service_port+"/user/change-password?token="+token+"\n\n" +
                 "If you are having any issues with your account, please don’t hesitate to contact us using\n\ncydeo.ticketing@gmail.com.\n" +
                 "\n" +
                 "\n" +
@@ -257,7 +260,7 @@ public class UserServiceImpl implements UserService {
                 "CYDEO Team\n";
         String title = "You recently requested to change your password.";
         String body = "If it wasn't you, please disregard this email and make sure you can still login to your account. If it was you, then confirm the password change by clicking the button below.";
-        String url = "http://localhost:8080/user/change-password?token="+token;
+        String url = "http://localhost:"+service_port+"/user/change-password?token="+token;
         String buttonText = "Reset Password";
 
 //        emailService.sendSimpleMessage(email,subject,message);
